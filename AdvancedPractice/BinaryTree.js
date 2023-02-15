@@ -45,7 +45,7 @@ class BinarySearchTree{
             return root;
         }
 
-        keyExist(key){
+        keyExist(key){//ブール値を返す
             let iterator = this.root;
             while(iterator != null){
                 if(iterator.data == key)return true;
@@ -55,7 +55,7 @@ class BinarySearchTree{
             return false;
         }
 
-        search(key){
+        search(key){//探索
             let iterator = this.root;
             while(iterator != null){
                 if(iterator.data == key)return iterator;
@@ -65,7 +65,7 @@ class BinarySearchTree{
             return null;
         }
 
-        insert(value){
+        insert(value){//ノードの挿入
             let iterator = this.root;
             while(iterator != null){
                 if(iterator.data > value && iterator.left == null)iterator.left = new BinaryTree(value);
@@ -73,6 +73,14 @@ class BinarySearchTree{
                 iterator = (iterator.data > value)? iterator.left : iterator.right;
             }
             return this.root;
+        }
+
+        transplant(nodeParent,node,target){
+            //ここから開発
+        }
+
+        deleteNode(key){
+            //ここから開発
         }
 
         printSorted(){
