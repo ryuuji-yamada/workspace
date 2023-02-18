@@ -25,12 +25,12 @@ class BinarySearchTree{
         this.root = BinarySearchTree.sortedArrayToBST(sortedList);
         }
 
-        static sortedArrayToBST(array){
+        static sortedArrayToBST(array){//ソート済配列を受け取ってBSTを返す
             if(array.length == 0)return null;
             return BinarySearchTree.sortedArrayToBSTHelper(array,0,array.length-1);
         }
 
-        static sortedArrayToBSTHelper(arr,start,end){
+        static sortedArrayToBSTHelper(arr,start,end){//Helper関数
             if(start == end)return new BinaryTree(arr[start],null,null);
 
             let mid = Math.floor((start+end)/2);
@@ -76,11 +76,82 @@ class BinarySearchTree{
         }
 
         transplant(nodeParent,node,target){
-            //ここから開発
+            if(nodeParent == null)this.root = target;
+            else if(nodeParent.left == node)nodeParent.left = target;
+            else nodeParent.right = target;
         }
 
         deleteNode(key){
-            //ここから開発
+            if(this.root == null)return;//木がnullなら何も起こらない
+            let node = this.search(key);//指定のノードがある場合keyとして代入
+            if(!this.keyExist(key))return;//もしkeyが無ければ何も起こらない
+
+            let parent = this.findParent(node);//ここの代入はOK?
+            //case 1:ノードNが葉ノードの場合
+            //親ノードからnodeへの参照をnullに変更してnodeを削除
+            if(node.left == null && node.right == null){
+                if(parent.left.data == key)parent.left = null;
+                else if(parent.right.data == key)parent.right = null;
+            }
+
+            //case 2:ノードNの左が空
+            if(node.left == null)this.transplant(parent,node,node.right);
+            //case 3:ノードNの右が空
+            else if(node.right == null)this.transplant(parent,node,node.left);
+            //case 4:2つの子ノードを持っている場合
+            else{
+                let successor = this.findSuccessor(node);
+                let successorP = this.findParent(successor);
+
+                //case4.1:後続ノードSがすぐ右側にいる場合、ノードNが後続ノードSの親になっているためcase4は不要
+                //単純にNの親であるPの部分木とSを移植すればOK
+                //case4.2:後続ノードSがすぐ右側にいない場合、後続Sの親も変更する必要あり
+                if(successor != node.right){
+                    //後続ノードSをSの右部分木で移植。Sをアップデート
+                    this.transplant(successorP,successor,successor.right);
+                    //Sの右側はノードNの右側担っている必要がある
+                    successor.right = node.right;
+                }
+                //ノードNを後続Sで移植。Sの左部分木をノードNの左部分木にする。
+                this.transplant(parent,node,successor);
+                successor.left = node.left;
+            }
+        }
+
+        findParent(node){
+            let iterator = this.root;
+            let parent;
+            while(iterator != node){
+                parent = iterator;
+                iterator = iterator.data > node.data ? iterator.left:iterator.right;
+            }
+            return parent;
+        }
+
+        findSuccessor(node){
+            let targetNode = node;//部分木
+            if(targetNode == null)return null;//keyがBST内に存在しない場合、nullを返す
+            if(targetNode.right != null)return this.minimumNode(targetNode.right);//keyのノードの右にある最小値を探す
+
+            let successor = null;
+            let iterator = this.root;
+
+            while(iterator != null){
+                if(targetNode.data == iterator.data)return successor;
+                //successorを左方向へずらしていく
+                if(targetNode.dara < iterator.data && (successor == null || iterator.data < successor.data))successor = iterator;
+                if(targetNode.data < iterator.data) iterator = iterator.left;
+                else iterator = iterator.right;
+            }
+            return successor;
+        }
+
+        minimumNode(node){
+            let iterator = node;
+            while(iterator != null && iterator.left != null){
+                iterator = iterator.left;
+            }
+            return iterator;
         }
 
         printSorted(){
@@ -88,5 +159,10 @@ class BinarySearchTree{
         }
     }
 
-    let balancedBST = new BinarySearchTree([4,43,36,46,32,7,97,95,34,8,96,35,85,1010,232]);
-    balancedBST.printSorted();
+    let balancedBST = new BinarySearchTree([15,9,19,4,10,17]);
+
+//case 1~3はOK
+//balancedBST.printSorted();
+balancedBST.deleteNode(15);
+//console.log("");
+//balancedBST.printSorted();
