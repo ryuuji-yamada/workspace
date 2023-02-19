@@ -24,14 +24,14 @@ class Heap{
             let temp = arr[i];
             arr[i] = arr[biggest];
             arr[biggest] = temp;
-            Heap.maxHeapify(arr,biggest);
+            Heap.maxHeapify(arr,heapEnd,biggest);
         }
     }
 
     static buildMaxHeap(arr){
         let middle = Heap.parent(arr.length);
         for(let i = middle; i >=0; i--){//最後の葉ノードの親から根までmaxHeapifyする
-            Heap.maxHeapify(arr,i);
+            Heap.maxHeapify(arr,arr.length,i);
         }
     }
 
@@ -55,11 +55,11 @@ class Heap{
 }
 
 let heap1 = [2,42,11,30,10,7,6,5,9];
-console.log(heap1);
-Heap.heapSort(heap1);
-console.log(heap1); // 昇順にソートされました。
+console.log("配列操作前:" + heap1);
+Heap.buildMaxHeap(heap1);console.log("最大ヒープ構造:"+heap1);
+Heap.heapSort(heap1);console.log("ヒープソート(昇順):"+heap1); 
 
 let heap2 = [56,4,51,10,12,5,12,4,6,5];
-console.log(heap2);
-Heap.heapSort(heap2);
-console.log(heap2);
+console.log("配列操作前:" + heap2);
+Heap.buildMaxHeap(heap2);console.log("最大ヒープ構造:"+heap2);
+Heap.heapSort(heap2);console.log("ヒープソート(昇順):"+heap2); 
