@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset=“utf-8”> 
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>blog Top Page</title> 
+   </head>
+   <body>
+    <link rel="stylesheet" href="blogTopPage.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+    <!-- ナビバー -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarAltMarkup" aria-expand="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+         <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#">Home<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="#">Features</a>
+            <a class="nav-item nav-link" href="#">Pricing</a>
+            <a class="nav-item nav-link disabled" href="#">Disabled</a>
+         </div>
+      </div>
+    </nav>
+    <!-- グローバルナビゲーション -->
+    <div class="bg-dark">
+       <ul class="nav container">
+          <li class="nav-item">
+             <span class="nav-link text-white">Home</span>
+          </li>
+          <li class="nav-item">
+             <span class="nav-link text-white">About us</span>
+          </li>
+          <li class="nav-item">
+             <span class="nav-link text-white">Pricing</span>
+          </li>
+       </ul>
+    </div>
+    
+    <!-- ヘッダー -->
+    <div class="bg-light py-5">
+       <!-- グリッドシステム container -->
+       <div class="container text-center text-md-left">
+          <!-- row -->
+          <div class="row">
+             <!-- col -->
+             <!-- h1ブログタイトル col-12 -->
+             <h1 class="col-12 font-weight-bold">Title of a longer<br />featured blog post</h1>
+             <!-- pタグ スマホ画面: col-12, それ以上の画面: col-6, 上下にpadding: 2  -->
+             <p class="col-12 col-md-6 py-2">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+             <!-- ボタン2つ を入れるdiv スマホ画面: 中央寄せ、 それ以上の画面: 左寄せ を指定してください-->
+             <div class="col-12 justify-content-center justify-content-md-start">
+                <!-- 見本を参考にボタンを作成してください -->
+                <button class="btn btn-primary">Main call to action</button>
+                <button class="btn btn-secondary ml-3">Secondary action</button>    
+             </div>
+          </div>
+       </div>
+    </div>
+    
+    <!-- 右側に画像のsection (スマホ画面は上に画像 下にテキスト)-->
+    <!-- グリッドシステム container 上下にpadding: 4 をつけてください -->
+    <div class="container py-4">
+       <!-- row -->
+       <div class="row align-items-center">
+          <!-- col 大きい画面の時に画像が右に来るよう order で順序を制御しましょう -->
+          <!-- 詳しくはこちら https://getbootstrap.com/docs/4.4/utilities/flex/#order を参考にしてください -->
+          <!-- 右側中央に画像は配置してください -->
+          <div class="col-12 col-md-6 order-md-1 d-flex justify-content-center">
+            <div class="bg-info img-size"></div>
+         </div>
+          <!-- col -->
+          <!-- orderで順序を制御し、文字の位置はスマホ画面では中央、それ以上では左寄せにしてください -->
+          <div class="col-12 col-md-6 order-md-0 text-center text-md-left">
+             <!-- グリッドシステムの入れ子 row -->
+             <!-- 上側のpaddingを スマホ画面では 3、それ以上の画面では0を指定してください -->
+             <div class="row pt-3 pt-md-0">
+                <!-- col h2タグ-->
+                <h2 class="col-12">First featurette heading. It'll blow your mind.</h2>
+                <!-- col pタグ-->
+                <p class="col-12">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+             </div>
+          </div>
+       </div>
+    </div>
+    
+    <!-- 左側に画像のsection (スマホ画面は上に画像) -->
+    <!-- 上と同じスタイルで左に画像が来るようBootstrapのクラスをつけましょう -->
+    <!-- グリッドシステム container -->
+    <div class="container py-4">
+       <!-- row -->
+       <div class="row align-items-center">
+          <!-- col -->
+          <div class="col-12 col-md-6 d-flex justify-content-center">
+             <div class="bg-warning img-size"></div>
+          </div>
+          <!-- col -->
+          <div class="col-12 col-md-6 text-center text-md-left">
+             <!-- row -->
+             <div class="row pt-3 pt-md-0">
+                <!-- col h2タグ-->
+                <h2 class="col-12">First featurette heading. It'll blow your mind.</h2>
+                <!-- col pタグ-->
+                <p class="col-12">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+             </div>
+          </div>
+       </div>
+    </div>
+    
+    <!-- 丸い画像 section -->
+    <!-- グリッドシステム container 上下にpadding: 4 をつけてください -->
+    <div class="container py-4">
+       <!-- row colで指定した要素を均等に並べてください-->
+       <div class="row justify-content-between">
+          <!-- col 中央寄せにして、上下にpadding: 5をつけてください-->
+          <!-- 文字を中央寄せにしましょう -->
+          <!-- レイアウトはグリッドシステムを使って以下のように配置します。 -->
+          <!-- スマホ画面: グリッド列12 それ以上の画面サイズ: グリッド列3 -->
+          <div class="col-12 col-md-3 text-center py-5">
+             <!-- 円の画像が中央に表示されるようにフレックスボックスでレイアウトしてください -->
+             <div class="d-flex justify-content-center align-items-center">
+                <div class="bg-success circle-size"></div>
+             </div>
+             <!-- h3タグ 上にpadding: 3 をつけてください-->
+             <h3 class="pt-3">Heading</h3>
+             <!-- pタグ -->
+             <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+             <!-- 見本を参考にボタンを作成してください -->
+             <button class="btn btn-secondary">View details</button>    
+          </div>
+          <!-- 以下画像の色を変えて同じHTMLを繰り返します。 -->
+          <!-- col -->
+          <div class="col-12 col-md-3 text-center py-5">
+             <div class="d-flex justify-content-center align-items-center">
+                <div class="bg-primary circle-size"></div>
+             </div>
+             <h3 class="pt-3">Heading</h3>
+             <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+             <!-- button -->
+             <button class="btn btn-secondary">View details</button>    
+          </div>
+          <!-- col -->
+          <div class="col-12 col-md-3 text-center py-5">
+             <div class="d-flex justify-content-center align-items-center">
+                <div class="bg-danger circle-size"></div>
+             </div>
+             <h3 class="pt-3">Heading</h3>
+             <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+             <!-- button -->
+             <button class="btn btn-secondary">View details</button>    
+          </div>
+       </div>
+       <!-- 2列目のrow -->
+       <div class="row justify-content-between">
+          <div class="col-12 col-md-3 text-center py-5">
+             <div class="d-flex justify-content-center align-items-center">
+                <div class="bg-primary circle-size"></div>
+             </div>
+             <h3 class="pt-3">Heading</h3>
+             <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+             <!-- button -->
+             <button class="btn btn-secondary">View details</button>    
+          </div>
+          <div class="col-12 col-md-3 text-center py-5">
+             <div class="d-flex justify-content-center align-items-center">
+                <div class="bg-danger circle-size"></div>
+             </div>
+             <h3 class="pt-3">Heading</h3>
+             <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+             <!-- button -->
+             <button class="btn btn-secondary">View details</button>   
+          </div>
+          <div class="col-12 col-md-3 text-center py-5">
+             <div class="d-flex justify-content-center align-items-center">
+                <div class="bg-success circle-size"></div>
+             </div>
+             <h3 class="pt-3">Heading</h3>
+             <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+             <!-- button -->
+             <button class="btn btn-secondary">View details</button>    
+          </div>
+       </div>
+    </div>
+    <!-- フッター 見本を参考にレイアウトしてください-->
+    <div class="footer bg-light">
+    <div class="d-flex justify-content-center align-items-center py-3">
+      <p class="px-2 m-0">Copyright © 2020 Recursion</p>
+      <a href="#" class="px-2">Privacy</a>
+      <a href="#" class="px-2">Term</a>
+    </div>
+   </body>
+</html>
