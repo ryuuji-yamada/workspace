@@ -1,4 +1,50 @@
-//sample5
+/*sample7:非同期型コールバック
+let strage = "old data";
+
+function getData(url){
+    setTimeout(() => {
+        console.log("getting from " + url);
+        strage = "data at " + url;
+    },1000);
+}
+
+function render(){
+    console.log("rendering " + strage);
+}
+
+//localに保存されたデータからrenderingする
+//本来はデータを取得->renderの順
+getData("https://recursionist.io/");
+render();
+*/
+
+/*sample6:同期型コールバック
+//フィボナッチ数を返す関数
+function fib(n){
+    if(n == 0)return 0;
+    else if(n == 1) return 1;
+    else return fib(n-1) + fib(n-2);
+}
+
+//2乗を返すラムダ関数
+let square = function(n){
+    return n*n;
+}
+
+//引数に関数を受け取る
+function printFnResult(callback,n){
+    console.log("----start----");
+    console.log("n: " + n);
+    //ここで受け取った関数を実行する
+    console.log("result: " + callback(n));
+    console.log("-----end-----");
+}
+printFnResult(fib,20);
+printFnResult(square,10);
+printFnResult(n => n*n*n,10);
+*/
+
+/*sample5
 function greetingFn(name){//nameを受け取り、文字列を返す関数
     return "Hello there " + name + " from Fn.";
 }
@@ -16,6 +62,7 @@ function multiCall(f,fInputF,message){//入力として関数への参照を受�
 
 console.log(multiCall(greetingFn,nameGenerator,"Thank you"));
 console.log(multiCall(greetingLambdaFn,nameGenerator,"Thank you"));
+*/
 
 /*sample4:関数を返す関数
 function helloFunction(){//関数を返す関数
