@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--CSS-->
+    <style>
+        .box{
+    height: 100px;
+    width: 100px;
+    }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>test</title>
+</head>
+<body>
+    <div class="m-2">
+        <div class="box bg-primary d-block" id="pBlock">
+        </div>
+        <p>press up and down</p>
+        <div>
+            <button onclick="increasePx()" class="btn">+</button>
+            <button onclick="decreasePx()" class="btn">-</button>
+        </div>
+    </div>
+    <!--JavaScript-->
+    <script>
+        const pBlock = document.getElementById("pBlock");
+        const pxIncrease = 10;
+        
+        function increasePx(){
+            let height = pBlock.offsetHeight;
+            pBlock.style.height = height + pxIncrease + "px";
+        }
+
+        function decreasePx(){
+            let height = pBlock.offsetHeight;
+            pBlock.style.height = height - pxIncrease + "px";
+        }
+    </script>
+</body>
+</html>
