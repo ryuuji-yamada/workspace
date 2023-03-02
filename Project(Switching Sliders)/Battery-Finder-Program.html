@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--BootStrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Battery-Finder-Program</title>
+</head>
+<body>
+    <div class="bg-primary text-white text-center pt-2 pb-2 mb-3">
+        <h1>Battery Finder Program</h1>
+    </div>
+    <div class="col-10 m-auto">
+        <div class="mb-3">
+            <p class="pb-0 m-0">Step1: Select your brand</p>
+            <select name="brands" id="brand-select"><!--ドロップダウンリスト-->
+            </select>
+        </div>
+        <div class="mb-3">
+            <p class="pb-0 m-0">Step2: Select your model</p>
+            <select name="models" id="model-select"><!--ドロップダウンリスト-->
+            </select>
+        </div>
+        <div class="mb-3">
+            <p class="pb-0 m-0">Step3: Input accessory power consumption</p>
+            <input id="wattage" type="number" value="55" min="0" max="100"></input>
+        </div>
+        <div class="mb-3">
+            <p class="pb-0 m-0">Step4: Choose your battery</p>
+            <div id="battery-list" class="w-100 bg-info">
+            </div>
+        </div>
+    </div>
+    <script>
+        const battery =
+    [{
+        "batteryName": "WKL-78",
+        "capacityAh": 2.3,
+        "voltage": 14.4,
+        "maxDraw": 3.2,
+        "endVoltage": 10,
+    },
+    {
+        "batteryName": "WKL-140",
+        "capacityAh": 4.5,
+        "voltage": 14.4,
+        "maxDraw": 9.2,
+        "endVoltage": 5,
+    },
+    {
+        "batteryName": "Wmacro-78",
+        "capacityAh": 2.5,
+        "voltage": 14.5,
+        "maxDraw": 10,
+        "endVoltage": 5,
+    },
+    {
+        "batteryName": "Wmacro-140",
+        "capacityAh": 3.6,
+        "voltage": 14.4,
+        "maxDraw": 14,
+        "endVoltage": 5,
+    },
+    {
+        "batteryName": "IOP-E78",
+        "capacityAh": 6.6,
+        "voltage": 14.4,
+        "maxDraw": 10.5,
+        "endVoltage": 8,
+    },
+    {
+        "batteryName": "IOP-E140",
+        "capacityAh": 9.9,
+        "voltage": 14.4,
+        "maxDraw": 14,
+        "endVoltage": 10,
+    },
+    {
+        "batteryName": "IOP-E188",
+        "capacityAh": 13.2,
+        "voltage": 14.4,
+        "maxDraw": 14,
+        "endVoltage": 11,
+    },
+    {
+        "batteryName": "RYN-C65",
+        "capacityAh": 4.9,
+        "voltage": 14.8,
+        "maxDraw": 4.9,
+        "endVoltage": 11,
+    },
+    {
+        "batteryName": "RYN-C85",
+        "capacityAh": 6.3,
+        "voltage": 14.4,
+        "maxDraw": 6.3,
+        "endVoltage": 12,
+    },
+    {
+        "batteryName": "RYN-C140",
+        "capacityAh": 9.8,
+        "voltage": 14.8,
+        "maxDraw": 10,
+        "endVoltage": 12,
+    },
+    {
+        "batteryName": "RYN-C290",
+        "capacityAh": 19.8,
+        "voltage": 14.4,
+        "maxDraw": 14,
+        "endVoltage": 12,
+    }
+];
+
+    //バッテリーの並べ替え
+    battery.sort(function(a,b){
+        if(a.batteryName > b.batteryName) return 1;
+        else return -1;
+    });
+
+    class Battery{
+        constructor(batteryName,capacityAh,voltage,maxDraw,endVoltage){
+            this.batteryName = batteryName;
+            this.capacityAh = capacityAh;
+            this.voltage = voltage;
+            this.maxDraw = maxDraw;
+            this.endVoltage = endVoltage;
+        }
+
+        maxWatt(){
+            return this.capacityAh * this.voltage;
+        }
+
+        endWatt(){
+            return this.endVoltage * this.maxDraw;
+        }
+
+        maxUseHour(sumWatt){
+            return (this.maxWatt()/sumWatt).toFixed(1);
+        }
+
+        createBattElement(sumWatt){
+            const battEleDiv = document.createElement('div');
+            battEleDiv.classList.add('w-100','bg-light','border','border-secondary','d-flex','flex-row','justify-content-between','align-items-center');
+            const battNameP = document.createElement('p');
+            battNameP.classList.add('pl-2','pb-2', 'pt-2', 'm-0');
+            const battNameS = document.createElement('strong');
+            battNameS.innerHTML = this.batteryName;
+            battNameP.append(battNameS);
+            const battInfoP = document.createElement('p');
+            battInfoP.innerHTML = 'Estimate ' + this.maxUseHour(sumWatt) + ' hours';
+            battEleDiv.append(battNameP,battInfoP);
+            return battEleDiv;
+        }
+    }
+
+    const batteryObjects = [];
+    battery.forEach(batt => {
+        batteryObjects.push(new Battery(batt['batteryName'],batt['capacityAh'], batt['voltage'], batt['maxDraw'], batt['endVoltage']));
+    });
+
+    const camera =
+    [{
+        "brand": "Cakon",
+        "model": "ABC 3000M",
+        "powerConsumptionWh": 35.5,
+    },
+    {
+        "brand": "Cakon",
+        "model": "ABC 5000M",
+        "powerConsumptionWh": 37.2,
+    },
+    {
+        "brand": "Cakon",
+        "model": "ABC 7000M",
+        "powerConsumptionWh": 39.7,
+    },
+    {
+        "brand": "Cakon",
+        "model": "ABC 9000M",
+        "powerConsumptionWh": 10.9,
+    },
+    {
+        "brand": "Cakon",
+        "model": "ABC 9900M",
+        "powerConsumptionWh": 15.7,
+    },
+    {
+        "brand": "Go MN",
+        "model": "UIK 110C",
+        "powerConsumptionWh": 62.3,
+    },
+    {
+        "brand": "Go MN",
+        "model": "UIK 210C",
+        "powerConsumptionWh": 64.3,
+    },
+    {
+        "brand": "Go MN",
+        "model": "UIK 230C",
+        "powerConsumptionWh": 26.3,
+    },
+    {
+        "brand": "Go MN",
+        "model": "UIK 250C",
+        "powerConsumptionWh": 15.3,
+    },
+    {
+        "brand": "Go MN",
+        "model": "UIK 270C",
+        "powerConsumptionWh": 20.3,
+    },
+    {
+        "brand": "VANY",
+        "model": "CEV 1100P",
+        "powerConsumptionWh": 22,
+    },
+    {
+        "brand": "VANY",
+        "model": "CEV 1300P",
+        "powerConsumptionWh": 23,
+    },
+    {
+        "brand": "VANY",
+        "model": "CEV 1500P",
+        "powerConsumptionWh": 24,
+    },
+    {
+        "brand": "VANY",
+        "model": "CEV 1700P",
+        "powerConsumptionWh": 25,
+    },
+    {
+        "brand": "VANY",
+        "model": "CEV 1900P",
+        "powerConsumptionWh": 26,
+    }
+];
+
+class Camera {
+    constructor(brand, model, powerConsumptionWh){
+        this.brand = brand;
+        this.model = model;
+        this.powerConsumptionWh = powerConsumptionWh;
+    }
+
+    createModelElement(brand, index){
+        const optionEle = document.createElement('option');
+        optionEle.value = index;
+        optionEle.innerHTML = this.model;
+        return this.brand === brand ? optionEle : null;
+    };
+}
+
+//model名でソート
+const cameraSort = camera.sort(function(a,b) {
+    if(a.model > b.model)return 1;
+    else return -1;
+});
+
+let cameraObjects = [];
+cameraSort.forEach(camera1 => {
+    cameraObjects.push(new Camera(camera1['brand'], camera1['model'], camera1['powerConsumptionWh']));
+});
+
+//ブランド選択肢を作成
+let brandsDic = {};
+camera.forEach(dict => {
+    brandsDic[dict['brand']] = 1;
+});
+const brands = Object.keys(brandsDic).sort();
+//<option value="dog">Dog</option>
+const brandSelectEle = document.getElementById('brand-select');
+brands.forEach(brand => {
+    const optionEle = document.createElement('option');
+    optionEle.value = brand;
+    optionEle.innerHTML = brand;
+    brandSelectEle.append(optionEle);
+});
+
+//初期のモデル選択肢を作成
+const modelSelectEle = document.getElementById('model-select');
+cameraObjects.forEach((cameraObj,index) => {
+    modelSelectEle.append(cameraObj.createModelElement(brands[0],index));
+});
+
+//ブランドが選択されたらモデルを更新
+brandSelectEle.addEventListener('change',e =>{
+    modelSelectEle.innerHTML = '';
+    cameraObjects.forEach((cameraObj,index) => {
+        modelSelectEle.append(cameraObj.createModelElement(e.target.value,index));
+    });
+    updateBattList();
+});
+
+//cameraが更新されたらバッテリーリストを更新
+modelSelectEle.addEventListener('change',updateBattList);
+
+//ワッテージの入力取得
+const inputWattEle = document.getElementById('wattage');
+inputWattEle.addEventListener('change',updateBattList);
+
+//batteryの初期リストを作成
+const batteryTopDiv = document.getElementById('battery-list');
+batteryObjects.forEach(battObj => {
+    batteryTopDiv.append(battObj.createBattElement(parseInt(inputWattEle.value) + cameraObjects[modelSelectEle.value].powerConsumptionWh));
+});
+
+function updateBattList(){
+    const sumWatt = parseInt(inputWattEle.value) + cameraObjects[modelSelectEle.value].powerConsumptionWh;
+    batteryTopDiv.innerHTML = '';
+    batteryObjects.forEach(batt => {
+        if(batt.endWatt() > sumWatt){
+            batteryTopDiv.append(batt.createBattElement(sumWatt));
+        }
+    });
+}
+    </script>
+</body>
+</html>
