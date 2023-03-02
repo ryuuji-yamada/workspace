@@ -151,6 +151,7 @@
             battNameS.innerHTML = this.batteryName;
             battNameP.append(battNameS);
             const battInfoP = document.createElement('p');
+            battInfoP.classList.add('pl-2', 'pb-2', 'pt-2', 'mt-0', 'mb-0', 'ml-0', 'mr-2');
             battInfoP.innerHTML = 'Estimate ' + this.maxUseHour(sumWatt) + ' hours';
             battEleDiv.append(battNameP,battInfoP);
             return battEleDiv;
