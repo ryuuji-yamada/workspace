@@ -2,3 +2,32 @@ body{
     font-family: Futura!important;
     letter-spacing: 0.02em!important;
 }
+
+p{
+    margin: 0!important;
+}
+
+/*background*/
+.bg-green{
+    background:#4BA3A1;
+}
+.bg-blue{
+    background: #1A4567;
+}
+
+/*font-size*/
+.rem1p3 {
+    font-size: 1.3rem;
+}
+.rem1p5 {
+    font-size: 1.5rem;
+}
+
+/* effect */
+.hover {
+    cursor: pointer;
+}
+
+.hover:hover {
+    opacity: 0.9;
+}
