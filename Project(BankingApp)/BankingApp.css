@@ -31,3 +31,11 @@ p{
 .hover:hover {
     opacity: 0.9;
 }
+
+/*specific layout*/
+.money-box{
+    margin: 1em 0;
+    border: double 5px white;
+    background: #1A4567;
+    color: white;
+}
