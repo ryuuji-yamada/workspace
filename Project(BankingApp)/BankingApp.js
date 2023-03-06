@@ -1,6 +1,18 @@
+function displayNone(ele){//追加
+    ele.classList.remove("d-block");
+    ele.classList.add("d-none");
+}
+
+function displayBlock(ele){//追加
+    ele.classList.remove("d-none");
+    ele.classList.add("d-block");
+}
+
 const config = {
     initialForm: document.getElementById("initial-form"),
-    bankPage: document.getElementById("bankPage")
+    bankPage: document.getElementById("bankPage"),
+    //追加
+    sidePage: document.getElementById("sidePage")
 }
 
 class BankAccount{
@@ -96,8 +108,9 @@ function mainBankPage(bankAccount){
         </div>
     `;
 
+    //withdrawボタンがクリックされたらwithdrawController関数を実行=>withdrawページを表示
     menuCon.querySelectorAll("#withdrawBtn")[0].addEventListener("click",function(){
-        alert("withdraw");
+        withdrawController();
     });
     menuCon.querySelectorAll("#depositBtn")[0].addEventListener("click",function(){
         alert("deposit");
@@ -108,6 +121,92 @@ function mainBankPage(bankAccount){
 
     let container = document.createElement("div");
     container.append(infoCon,balanceCon,menuCon);
+
+    return container;
+}
+
+function billInputSelector(title){//Page3.htmlの内容の一部を作成する関数
+    let container = document.createElement("div");
+    container.innerHTML = 
+    `
+    <h2 class="pb-3">${title}</h2>
+        <div class="form-group row">
+            <label for="moneyWithdraw100" class="col-2 col-form-label col-form-label-sm">$100</label>
+            <div class="col-10">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="100" id="moneyWithdraw100" placeholder="5">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="moneyWithdraw50" class="col-2 col-form-label col-form-label-sm">$50</label>
+            <div class="col-10">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="50" id="moneyWithdraw50" placeholder="1">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="moneyWithdraw20" class="col-2 col-form-label col-form-label-sm">$20</label>
+            <div class="col-10">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="20" id="moneyWithdraw20" placeholder="2">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="moneyWithdraw10" class="col-2 col-form-label col-form-label-sm">$10</label>
+            <div class="col-10">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="10" id="moneyWithdraw10" placeholder="3">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="moneyWithdraw5" class="col-2 col-form-label col-form-label-sm">$5</label>
+            <div class="col-10">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="5" id="moneyWithdraw5" placeholder="1">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="moneyWithdraw1" class="col-2 col-form-label col-form-label-sm">$1</label>
+            <div class="col-10">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="1" id="moneyWithdraw1" placeholder="4">
+            </div>
+        </div>
+        <div class="text-center money-box p-3">
+            <p id="withdrawTotal">$0.00</p>
+        </div>
+    `;
+    return container;
+}
+
+function backNextBtn(backString,nextString){
+    let container = document.createElement("div");
+    container.innerHTML =
+    `
+    <div class="d-flex","justify-content-between">
+        <div class="col-6 pl-0">
+            <button id="withdrawGoBack" class="btn btn-outline-primary col-12">${backString}</button>
+        </div>
+        <div class="col-6 pr-0">
+            <button id="withdrawProcess" class="btn btn-primary col-12">${nextString}</button>
+        </div>
+    </div>
+    `
+    return container;
+}
+
+function withdrawController(){
+    displayNone(config.bankPage);
+    displayBlock(config.sidePage);
+    //新しい情報をレンダリングするため、ページを空にする
+    config.bankPage.innerHTML = "";
+    config.sidePage.innerHTML = "";
+    config.sidePage.append(withdrawPage());
+}
+
+function withdrawPage(){
+    let container = document.createElement("div");
+    container.classList.add("p-5");
+
+    let withdrawContainer = document.createElement("div");
+    container.append(withdrawContainer);
+
+    withdrawContainer.append(billInputSelector("Please Enter The Withdrawal Amount"));
+    withdrawContainer.append(backNextBtn("back","next"));
 
     return container;
 }
