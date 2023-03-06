@@ -77,24 +77,34 @@ function mainBankPage(bankAccount){
     menuCon.innerHTML =
     `
         <div class="col-lg-4 col-12 py-1 py-md-3 px-0 px-md-1">
-            <div class="bg-blue hover p-3">
+            <div id="withdrawBtn" class="bg-blue hover p-3">
                 <h5>WITHDRAWAL</h5>
                 <i class="fas fa-wallet fa-3x"></i>
             </div>
         </div>
         <div class="col-lg-4 col-12 py-1 py-md-3 px-0 px-md-1">
-            <div class="bg-blue hover p-3">
+            <div id="depositBtn" class="bg-blue hover p-3">
                 <h5>DEPOSIT</h5>
                 <i class="fas fa-coins fa-3x"></i>
             </div>
         </div>
         <div class="col-lg-4 col-12 py-1 py-md-3 px-0 px-md-1">
-            <div class="bg-blue hover p-3">
+            <div id="comeBackLaterBtn" class="bg-blue hover p-3">
                 <h5>COME BACK LATER</h5>
                 <i class="fas fa-home fa-3x"></i>
             </div>
         </div>
     `;
+
+    menuCon.querySelectorAll("#withdrawBtn")[0].addEventListener("click",function(){
+        alert("withdraw");
+    });
+    menuCon.querySelectorAll("#depositBtn")[0].addEventListener("click",function(){
+        alert("deposit");
+    });
+    menuCon.querySelectorAll("#comeBackLaterBtn")[0].addEventListener("click",function(){
+        alert("come back later");
+    });
 
     let container = document.createElement("div");
     container.append(infoCon,balanceCon,menuCon);
