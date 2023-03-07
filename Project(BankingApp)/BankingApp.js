@@ -110,7 +110,7 @@ function mainBankPage(bankAccount){
 
     //withdrawボタンがクリックされたらwithdrawController関数を実行=>withdrawページを表示
     menuCon.querySelectorAll("#withdrawBtn")[0].addEventListener("click",function(){
-        withdrawController();
+        withdrawController(bankAccount);
     });
     menuCon.querySelectorAll("#depositBtn")[0].addEventListener("click",function(){
         alert("deposit");
@@ -133,37 +133,37 @@ function billInputSelector(title){//Page3.htmlの内容の一部を作成する�
         <div class="form-group row">
             <label for="moneyWithdraw100" class="col-2 col-form-label col-form-label-sm">$100</label>
             <div class="col-10">
-                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="100" id="moneyWithdraw100" placeholder="5">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill bill-input" data-bill="100" id="moneyWithdraw100" placeholder="5">
             </div>
         </div>
         <div class="form-group row">
             <label for="moneyWithdraw50" class="col-2 col-form-label col-form-label-sm">$50</label>
             <div class="col-10">
-                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="50" id="moneyWithdraw50" placeholder="1">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill bill-input" data-bill="50" id="moneyWithdraw50" placeholder="1">
             </div>
         </div>
         <div class="form-group row">
             <label for="moneyWithdraw20" class="col-2 col-form-label col-form-label-sm">$20</label>
             <div class="col-10">
-                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="20" id="moneyWithdraw20" placeholder="2">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill bill-input" data-bill="20" id="moneyWithdraw20" placeholder="2">
             </div>
         </div>
         <div class="form-group row">
             <label for="moneyWithdraw10" class="col-2 col-form-label col-form-label-sm">$10</label>
             <div class="col-10">
-                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="10" id="moneyWithdraw10" placeholder="3">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill bill-input" data-bill="10" id="moneyWithdraw10" placeholder="3">
             </div>
         </div>
         <div class="form-group row">
             <label for="moneyWithdraw5" class="col-2 col-form-label col-form-label-sm">$5</label>
             <div class="col-10">
-                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="5" id="moneyWithdraw5" placeholder="1">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill bill-input" data-bill="5" id="moneyWithdraw5" placeholder="1">
             </div>
         </div>
         <div class="form-group row">
             <label for="moneyWithdraw1" class="col-2 col-form-label col-form-label-sm">$1</label>
             <div class="col-10">
-                <input type="number" class="form-control form-control-sm text-right withdraw-bill" data-bill="1" id="moneyWithdraw1" placeholder="4">
+                <input type="number" class="form-control form-control-sm text-right withdraw-bill bill-input" data-bill="1" id="moneyWithdraw1" placeholder="4">
             </div>
         </div>
         <div class="text-center money-box p-3">
@@ -179,26 +179,26 @@ function backNextBtn(backString,nextString){
     `
     <div class="d-flex","justify-content-between">
         <div class="col-6 pl-0">
-            <button id="withdrawGoBack" class="btn btn-outline-primary col-12">${backString}</button>
+            <button class="btn btn-outline-primary col-12 back-btn">${backString}</button>
         </div>
         <div class="col-6 pr-0">
-            <button id="withdrawProcess" class="btn btn-primary col-12">${nextString}</button>
+            <button class="btn btn-primary col-12">${nextString}</button>
         </div>
     </div>
     `
     return container;
 }
 
-function withdrawController(){
+function withdrawController(bankAccount){
     displayNone(config.bankPage);
     displayBlock(config.sidePage);
     //新しい情報をレンダリングするため、ページを空にする
     config.bankPage.innerHTML = "";
     config.sidePage.innerHTML = "";
-    config.sidePage.append(withdrawPage());
+    config.sidePage.append(withdrawPage(bankAccount));
 }
 
-function withdrawPage(){
+function withdrawPage(bankAccount){
     let container = document.createElement("div");
     container.classList.add("p-5");
 
@@ -208,5 +208,34 @@ function withdrawPage(){
     withdrawContainer.append(billInputSelector("Please Enter The Withdrawal Amount"));
     withdrawContainer.append(backNextBtn("back","next"));
 
+    let backBtn = withdrawContainer.querySelectorAll(".back-btn").item(0);
+
+    backBtn.addEventListener("click",function(){
+        displayNone(config.sidePage);
+        displayBlock(config.bankPage);
+        config.bankPage.append(mainBankPage(bankAccount));
+    });
+
+    let billInputs = withdrawContainer.querySelectorAll(".bill-input");
+
+    for(let i = 0; i < billInputs.length; i++){
+        billInputs[i].addEventListener("change",function(event){
+            document.getElementById("withdrawTotal").innerHTML =
+            billSummation(billInputs,"data-bill").toString();
+        });
+    }
+
     return container;
+}
+
+function billSummation(inputElementNodeList,multiplierAttribute){
+    let summation = 0;
+    for(let i = 0; i < inputElementNodeList.length; i++){
+        let currEle = inputElementNodeList[i];
+        let value = parseInt(currEle.value);
+
+        if(currEle.hasAttribute(multiplierAttribute)) value *= parseInt(currEle.getAttribute(multiplierAttribute));
+        if(value > 0) summation += value;
+    }
+    return summation;
 }
