@@ -1,3 +1,132 @@
+/*sample11.3:reduce関数
+let array2d = [[2,3,4,5],[5,22,34,4,5],[12,13,45,67,84]];
+
+//２次元配列平坦化
+let flatten = array2d.reduce((flattenList,list) => flattenList.concat(list));
+console.log(flatten);
+console.log(flatten[1]);
+*/
+
+/*sample11.2:reduce関数
+let shoppingList = [
+    {
+        name: "Apple",
+        price: 100,
+        quantity: 10
+     },
+     {
+        name:"Orange",
+        price: 120,
+        quantity: 8
+     },
+     {
+        name: "Banana",
+        price: 80,
+        quantity: 14
+     }
+]
+
+let totalCost = shoppingList.reduce((total,item) => total + item.price* item.quantity,0);
+console.log(totalCost);
+*/
+
+/*sample11.1:reduce関数(関数、シーケンス、初期値の3つの引数を受け取り、シーケンスの最初の２つの要素に関数を適用し、演算結果とシーケンスの３番目の要素に関数を適用し...)
+function myReduce(reduceCallback,list,initial){
+    let lastResult = initial;
+    for(let i = 0; i < list.length; i++){
+        let result = reduceCallback(list[i],lastResult);
+        lastResult = result;
+    }
+    return lastResult;
+}
+
+let list1 = [1,2,3];
+console.log(myReduce((x,total) => x*total,list1,1));
+
+let list2 = [1,2,3,4,5,6,7,8,9,10];
+console.log(myReduce((x,total) => x*total,list2,1));
+
+console.log(list2.reduce((total,x) => total*x));//reduce関数
+console.log(list2.reduce((total,x)=>total*x,1));//reduce関数
+
+console.log(list2.reduce((total,x) => total+x));//1~10の総和
+*/
+
+/*sample10:filter関数(boolean値を返す関数とリストを受け取り、どれをフィルタリングするか決定する)
+function myFilter(predicateF,list){
+    let results = [];
+    for(let i = 0; i < list.length; i++){
+        if(predicateF(list[i]) == true)results.push(list[i]);
+    }
+    return results;
+}
+
+let list1 = [1,2,3,4,5,6,7,8,9,10];
+console.log(myFilter(x=>x%2 != 0,list1));
+console.log(list1.filter(x=>x%2 != 0));//Javascriptにはフィルター関数が搭載されている
+*/
+
+/*sample9:map関数(各要素に同じ関数を適用して出力)
+function myMap(f,list){
+    let res = [];
+    for(let i = 0; i < list.length; i++)res.push(f(list[i]));
+    return res;
+}
+let nums = [1,2,3,4,5,6,7];
+console.log(nums);
+console.log(myMap(x=>x*x,nums));
+console.log(nums.map(x=>x*x));//Javascriptにはラムダを受け取り、マッピングを返すmap関数がある
+*/
+
+/*sample8:リスト反復処理
+function forEach(f,list){//リストの各要素に関数を適用
+    for(let i = 0; i < list.length; i++){
+        f(list[i]);
+    }
+}
+
+forEach(x=>console.log(x),[2,3,4,5]);
+
+function simpleLoop(){//通常のfor loop
+    let l = [1,2,3,4,5];
+    let counter = 0;
+
+    for(let i = 0; i < l.length; i++){
+        counter += l[i]*l[i];
+    }
+    return counter;
+}
+console.log(simpleLoop());
+
+function loopDifferent(){
+    let l = [1,2,3,4,5];
+    let counter = 0;
+
+    let forEach = (f,list)=>{
+        for(let i = 0; i < list.length; i++){
+            //fに変化があった場合副作用が発生するので注意
+            f(list[i]);
+        }
+    }
+    forEach(function(x){
+        counter += x*x;
+    },l);
+    return counter;
+}
+console.log(loopDifferent());
+
+function loopDifferentLibrary(){//forEachメソッド(Javascriptの配列に付属)
+    let l = [1,2,3,4,5];
+    let counter = 0;
+
+    l.forEach(function(x){
+        counter += x*x;
+    });
+    return counter;
+}
+console.log(loopDifferentLibrary());
+*/
+
 /*sample7:非同期型コールバック
 let strage = "old data";
 
