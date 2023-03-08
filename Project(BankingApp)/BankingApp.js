@@ -1,9 +1,9 @@
-function displayNone(ele){//追加
+function displayNone(ele){
     ele.classList.remove("d-block");
     ele.classList.add("d-none");
 }
 
-function displayBlock(ele){//追加
+function displayBlock(ele){
     ele.classList.remove("d-none");
     ele.classList.add("d-block");
 }
@@ -15,7 +15,6 @@ const config = {
 }
 
 class BankAccount{
-    //メンバ変数の追加
     maxWithdrawPercent = 0.2;
 
     constructor(firstName,lastName,email,type,accountNumber,money){
@@ -123,15 +122,18 @@ function mainBankPage(bankAccount){
         </div>
     `;
 
-    //withdrawボタンがクリックされたらwithdrawController関数を実行=>withdrawページを表示
+    //clickの中の関数を書き換える
     menuCon.querySelectorAll("#withdrawBtn")[0].addEventListener("click",function(){
-        withdrawController(bankAccount);
+        sideBankSwitch();
+        config.sidePage.append(withdrawPage(bankAccount));
     });
     menuCon.querySelectorAll("#depositBtn")[0].addEventListener("click",function(){
-        alert("deposit");
+        sideBankSwitch();
+        console.log("testing 1")//config.sidePage.append(depositPage(bankAccount));
     });
     menuCon.querySelectorAll("#comeBackLaterBtn")[0].addEventListener("click",function(){
-        alert("come back later");
+        sideBankSwitch();
+        console.log("testing 2")//config.sidePage.append(comeBackLateritPage(bankAccount));
     });
 
     let container = document.createElement("div");
@@ -204,13 +206,21 @@ function backNextBtn(backString,nextString){
     return container;
 }
 
-function withdrawController(bankAccount){
+/*function withdrawController(bankAccount){//DRYを避けるためsideBankSwitch()に書き換える
     displayNone(config.bankPage);
     displayBlock(config.sidePage);
     //新しい情報をレンダリングするため、ページを空にする
     config.bankPage.innerHTML = "";
     config.sidePage.innerHTML = "";
     config.sidePage.append(withdrawPage(bankAccount));
+}
+*/
+
+function sideBankSwitch(){
+    displayNone(config.bankPage);
+    displayBlock(config.sidePage);
+    config.bankPage.innerHTML = "";
+    config.sidePage.innerHTML = "";
 }
 
 function withdrawPage(bankAccount){
