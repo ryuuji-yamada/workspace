@@ -43,6 +43,11 @@ class BankAccount{
         this.money -= this.calculateWithdrawAmount(amount);
         return this.calculateWithdrawAmount(amount);
     }
+
+    deposit(amount){
+        this.money += amount;
+        return amount;
+    }
 }
 
 function getRandomInteger(min,max){
@@ -129,7 +134,7 @@ function mainBankPage(bankAccount){
     });
     menuCon.querySelectorAll("#depositBtn")[0].addEventListener("click",function(){
         sideBankSwitch();
-        console.log("testing 1")//config.sidePage.append(depositPage(bankAccount));
+        config.sidePage.append(depositPage(bankAccount));
     });
     menuCon.querySelectorAll("#comeBackLaterBtn")[0].addEventListener("click",function(){
         sideBankSwitch();
@@ -184,7 +189,7 @@ function billInputSelector(title){//Page3.htmlの内容の一部を作成する�
             </div>
         </div>
         <div class="text-center money-box p-3">
-            <p id="withdrawTotal">$0.00</p>
+            <p id="totalBillAmount">$0.00</p>
         </div>
     `;
     return container;
@@ -206,21 +211,17 @@ function backNextBtn(backString,nextString){
     return container;
 }
 
-/*function withdrawController(bankAccount){//DRYを避けるためsideBankSwitch()に書き換える
-    displayNone(config.bankPage);
-    displayBlock(config.sidePage);
-    //新しい情報をレンダリングするため、ページを空にする
-    config.bankPage.innerHTML = "";
-    config.sidePage.innerHTML = "";
-    config.sidePage.append(withdrawPage(bankAccount));
-}
-*/
-
 function sideBankSwitch(){
     displayNone(config.bankPage);
     displayBlock(config.sidePage);
     config.bankPage.innerHTML = "";
     config.sidePage.innerHTML = "";
+}
+
+function bankReturn(bankAccount){//sidePageを閉じ、ダッシュボードを表示する関数
+    displayNone(config.sidePage);
+    displayBlock(config.bankPage);
+    config.bankPage.append(mainBankPage(bankAccount));
 }
 
 function withdrawPage(bankAccount){
@@ -236,16 +237,19 @@ function withdrawPage(bankAccount){
     let backBtn = withdrawContainer.querySelectorAll(".back-btn").item(0);
 
     backBtn.addEventListener("click",function(){
-        displayNone(config.sidePage);
+        /*displayNone(config.sidePage);
         displayBlock(config.bankPage);
         config.bankPage.append(mainBankPage(bankAccount));
+        */
+       //書き換え
+       bankReturn(bankAccount);
     });
 
     let billInputs = withdrawContainer.querySelectorAll(".bill-input");
 
     for(let i = 0; i < billInputs.length; i++){
         billInputs[i].addEventListener("change",function(event){
-            document.getElementById("withdrawTotal").innerHTML =
+            document.getElementById("totalBillAmount").innerHTML =
             billSummation(billInputs,"data-bill").toString();
         });
     }
@@ -287,9 +291,11 @@ function withdrawPage(bankAccount){
         confirmBNextBtn.addEventListener("click",function(){
             //残高のアップデート
             bankAccount.withdraw(total);
-            displayNone(config.sidePage);
+            /*displayNone(config.sidePage);
             displayBlock(config.bankPage);
-            config.bankPage.append(mainBankPage(bankAccount));
+            config.bankPage.append(mainBankPage(bankAccount));*/
+            //書き換え
+            bankReturn(bankAccount);
         });
     });
 
@@ -315,7 +321,7 @@ function billDialog(title,inputElementNodeList,multiplierAttribute){
     for(let i = 0; i < inputElementNodeList.length; i++){
         let value = parseInt(inputElementNodeList[i].value);
 
-        //入力された値が0より大きい時、HTMPとして表示
+        //入力された値が0より大きい時、HTMLとして表示
         if(value > 0){
             let bill = "$" + inputElementNodeList[i].getAttribute(multiplierAttribute);
             billElements += `<p class="rem1p3 calculation-box mb-1 pr-2">${value} × ${bill}</p>`;
@@ -335,5 +341,70 @@ function billDialog(title,inputElementNodeList,multiplierAttribute){
             </div>
         </div>
     `
+    return container;
+}
+
+function depositPage(bankAccount){//withdrawPageとほぼ同じ
+    let container = document.createElement("div");
+    container.classList.add("p-5");
+
+    let depositContainer = document.createElement("div");
+    container.append(depositContainer);
+
+    depositContainer.append(billInputSelector("Please Enter The Deposit Amount"));
+    depositContainer.append(backNextBtn("back","next"));
+
+    let backBtn = depositContainer.querySelectorAll(".back-btn").item(0);
+    backBtn.addEventListener("click",function(){
+        /*displayNone(config.sidePage);
+        displayBlock(config.bankPage);
+        config.bankPage.append(mainBankPage(bankAccount));*/
+        //書き換え
+        bankReturn(bankAccount);
+    });
+
+    let billInputs = depositContainer.querySelectorAll(".bill-input");
+
+    for(let i = 0; i < billInputs.length; i++){
+        billInputs[i].addEventListener("change",function(event){
+            document.getElementById("totalBillAmount").innerHTML =
+            billSummation(billInputs,"data-bill").toString();
+        });
+    }
+
+    let nextBtn = depositContainer.querySelectorAll(".next-btn").item(0);
+    nextBtn.addEventListener("click",function(){
+        container.innerHTML = '';
+
+        let confirmDialog = document.createElement("div");
+        confirmDialog.append(billDialog("The money you are going to deposit is ...",billInputs,"data-bill"));
+        container.append(confirmDialog);
+
+        let total = billSummation(billInputs,"data-bill");
+
+        confirmDialog.innerHTML +=
+        `
+        <div class="d-flex bg-danger py-1 py-md-2 mb-3 text-white">
+            <p class="col-8 text-left rem1p5">Total to be withdrawn: </p>
+            <p class="col-4 text-right rem1p5">$${total}</p>
+        </div>
+        `
+        let depositConfirmBtns = backNextBtn("Go Back","Confirm");
+        confirmDialog.append(depositConfirmBtns);
+
+        let confirmBackBtn = depositConfirmBtns.querySelectorAll(".back-btn")[0];
+        let confirmNextBtn = depositConfirmBtns.querySelectorAll(".next-btn")[0];
+
+        confirmBackBtn.addEventListener("click",function(){
+            container.innerHTML = "";
+            container.append(depositContainer);
+        });
+
+        confirmNextBtn.addEventListener("click",function(){
+            bankAccount.deposit(total);
+            bankReturn(bankAccount);
+        });
+    });
+
     return container;
 }
