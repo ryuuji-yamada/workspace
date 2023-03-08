@@ -182,7 +182,7 @@ function backNextBtn(backString,nextString){
             <button class="btn btn-outline-primary col-12 back-btn">${backString}</button>
         </div>
         <div class="col-6 pr-0">
-            <button class="btn btn-primary col-12">${nextString}</button>
+            <button class="btn btn-primary col-12 next-btn">${nextString}</button>
         </div>
     </div>
     `
@@ -225,6 +225,15 @@ function withdrawPage(bankAccount){
         });
     }
 
+    let nextBtn = withdrawContainer.querySelectorAll(".next-btn").item(0);
+    nextBtn.addEventListener("click",function(){
+        container.innerHTML = '';//今のページを空にする
+
+        let confirmDialog = document.createElement("div");
+        confirmDialog.append(billDialog("The money you are going to take is ...",billInputs,"data-bill"));
+        container.append(confirmDialog);
+    });
+
     return container;
 }
 
@@ -238,4 +247,34 @@ function billSummation(inputElementNodeList,multiplierAttribute){
         if(value > 0) summation += value;
     }
     return summation;
+}
+
+function billDialog(title,inputElementNodeList,multiplierAttribute){
+    let container = document.createElement("div");
+
+    let billElements = '';
+    for(let i = 0; i < inputElementNodeList.length; i++){
+        let value = parseInt(inputElementNodeList[i].value);
+
+        //入力された値が0より大きい時、HTMPとして表示
+        if(value > 0){
+            let bill = "$" + inputElementNodeList[i].getAttribute(multiplierAttribute);
+            billElements += `<p class="rem1p3 calculation-box mb-1 pr-2">${value} × ${bill}</p>`;
+        }
+    }
+
+    //totalはbillSumationで計算
+    let totalString = `<p class="rem1p3 pr-2">total: $${billSummation(inputElementNodeList, multiplierAttribute)}</p>`;
+
+    container.innerHTML = 
+    `
+    <h2 class="pb-1">${title}</h2>
+        <div class="d-flex justify-content-center">
+            <div class="text-right col-8 px-1 calculation-box">
+                ${billElements}
+                ${totalString}
+            </div>
+        </div>
+    `
+    return container;
 }
