@@ -16,6 +16,7 @@ const config = {
 
 class BankAccount{
     maxWithdrawPercent = 0.2;
+    annualInterestRate = 0.08;
 
     constructor(firstName,lastName,email,type,accountNumber,money){
         this.firstName = firstName;
@@ -47,6 +48,14 @@ class BankAccount{
     deposit(amount){
         this.money += amount;
         return amount;
+    }
+
+    simulateTimePassage(days){//利子を計算
+        let daysPerYear = 365;
+        let profit = (this.money * Math.pow(1 + this.annualInterestRate, days/daysPerYear));
+        //残高に反映
+        this.money += profit;
+        return profit;
     }
 }
 
@@ -138,7 +147,7 @@ function mainBankPage(bankAccount){
     });
     menuCon.querySelectorAll("#comeBackLaterBtn")[0].addEventListener("click",function(){
         sideBankSwitch();
-        console.log("testing 2")//config.sidePage.append(comeBackLateritPage(bankAccount));
+        config.sidePage.append(comeBackLaterPage(bankAccount));
     });
 
     let container = document.createElement("div");
@@ -147,7 +156,7 @@ function mainBankPage(bankAccount){
     return container;
 }
 
-function billInputSelector(title){//Page3.htmlの内容の一部を作成する関数
+function billInputSelector(title){//containerタイトルとwithdrawあるいはdeposit額を選択するページを作成する関数
     let container = document.createElement("div");
     container.innerHTML = 
     `
@@ -237,11 +246,6 @@ function withdrawPage(bankAccount){
     let backBtn = withdrawContainer.querySelectorAll(".back-btn").item(0);
 
     backBtn.addEventListener("click",function(){
-        /*displayNone(config.sidePage);
-        displayBlock(config.bankPage);
-        config.bankPage.append(mainBankPage(bankAccount));
-        */
-       //書き換え
        bankReturn(bankAccount);
     });
 
@@ -291,10 +295,6 @@ function withdrawPage(bankAccount){
         confirmBNextBtn.addEventListener("click",function(){
             //残高のアップデート
             bankAccount.withdraw(total);
-            /*displayNone(config.sidePage);
-            displayBlock(config.bankPage);
-            config.bankPage.append(mainBankPage(bankAccount));*/
-            //書き換え
             bankReturn(bankAccount);
         });
     });
@@ -356,10 +356,6 @@ function depositPage(bankAccount){//withdrawPageとほぼ同じ
 
     let backBtn = depositContainer.querySelectorAll(".back-btn").item(0);
     backBtn.addEventListener("click",function(){
-        /*displayNone(config.sidePage);
-        displayBlock(config.bankPage);
-        config.bankPage.append(mainBankPage(bankAccount));*/
-        //書き換え
         bankReturn(bankAccount);
     });
 
@@ -406,5 +402,37 @@ function depositPage(bankAccount){//withdrawPageとほぼ同じ
         });
     });
 
+    return container;
+}
+
+function comeBackLaterPage(bankAccount){
+    let container = document.createElement("div");
+    container.classList.add("p-5");
+    
+    container.innerHTML =
+    `
+     <div class="p-5">
+        <h2 class="pb-3">How many days will you be gone?</h2>
+        <div class="form-group">
+            <input type="number" class="form-control" id="days-gone" placeholder="4">
+        </div>
+    </div>
+    `;
+
+    container.append(backNextBtn("Back","Confirm"));
+
+    let backBtn = container.querySelectorAll(".back-btn")[0];
+    backBtn.addEventListener("click",function(){
+        bankReturn(bankAccount);
+    });
+
+    let nextBtn = container.querySelectorAll(".next-btn")[0];
+    nextBtn.addEventListener("click",function(){
+        let daysGoneInput = container.querySelectorAll("#days-gone")[0];
+        let totalDaysGone = parseInt(daysGoneInput.value);
+        totalDaysGone = totalDaysGone > 0? totalDaysGone:0;
+        bankAccount.simulateTimePassage(totalDaysGone);
+        bankReturn(bankAccount);
+    });
     return container;
 }
