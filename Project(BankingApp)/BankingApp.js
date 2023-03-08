@@ -11,11 +11,13 @@ function displayBlock(ele){//追加
 const config = {
     initialForm: document.getElementById("initial-form"),
     bankPage: document.getElementById("bankPage"),
-    //追加
     sidePage: document.getElementById("sidePage")
 }
 
 class BankAccount{
+    //メンバ変数の追加
+    maxWithdrawPercent = 0.2;
+
     constructor(firstName,lastName,email,type,accountNumber,money){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,6 +30,13 @@ class BankAccount{
 
     getFullName(){
         return this.firstName + " " + this.lastName;
+    }
+
+    //一度に引き落とせる限度額の計算(所有額の20%を限度額とする)
+    calculateWithdrawAmount(amount){
+        let maxWithdrawAmount = Math.floor(this.money*this.maxWithdrawPercent);
+        amount = amount > maxWithdrawAmount ? maxWithdrawAmount : amount;
+        return amount;
     }
 }
 
@@ -232,6 +241,22 @@ function withdrawPage(bankAccount){
         let confirmDialog = document.createElement("div");
         confirmDialog.append(billDialog("The money you are going to take is ...",billInputs,"data-bill"));
         container.append(confirmDialog);
+
+        //HTMLを追加し、金額のところに引き落とし可能額を表示
+        let total = billSummation(billInputs,"data-bill");
+
+        //confirmDialogコンテナに追加
+        confirmDialog.innerHTML +=
+        `
+        <div class="d-flex bg-danger py-1 py-md-2 mb-3 text-white">
+            <p class="col-8 text-left rem1p5">Total to be withdrawn: </p>
+            <p class="col-4 text-right rem1p5">$${bankAccount.calculateWithdrawAmount(total)}</p>
+        </div>
+        `
+
+        //Go Back,Confirmボタンを追加
+        let withdrawConfirmBtns = backNextBtn("Go Back","Confirm");
+        confirmDialog.append(withdrawConfirmBtns);
     });
 
     return container;
