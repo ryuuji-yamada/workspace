@@ -38,13 +38,19 @@ class BankAccount{
         amount = amount > maxWithdrawAmount ? maxWithdrawAmount : amount;
         return amount;
     }
+
+    withdraw(amount){
+        //this.moneyをアップデート
+        this.money -= this.calculateWithdrawAmount(amount);
+        return this.calculateWithdrawAmount(amount);
+    }
 }
 
 function getRandomInteger(min,max){
     return Math.floor(Math.random()*(max-min))+min;
 }
 
-//submit舌情報からインスタンスを作成する関数
+//submitした情報からインスタンスを作成する関数
 function initializeUserAccount(){
     const form = document.getElementById("bank-form");
     let userBankAccount = new BankAccount(
@@ -257,6 +263,24 @@ function withdrawPage(bankAccount){
         //Go Back,Confirmボタンを追加
         let withdrawConfirmBtns = backNextBtn("Go Back","Confirm");
         confirmDialog.append(withdrawConfirmBtns);
+
+        //Go Backボタンを押すと前のページに戻る
+        //Confirmボタンを押すとダッシュボードに戻る(ただし残高-引き落とし額を反映させておく)
+        let confirmBackBtn = withdrawConfirmBtns.querySelectorAll(".back-btn")[0];
+        let confirmBNextBtn = withdrawConfirmBtns.querySelectorAll(".next-btn")[0];
+
+        confirmBackBtn.addEventListener("click",function(){
+            container.innerHTML = "";
+            container.append(withdrawContainer);
+        });
+
+        confirmBNextBtn.addEventListener("click",function(){
+            //残高のアップデート
+            bankAccount.withdraw(total);
+            displayNone(config.sidePage);
+            displayBlock(config.bankPage);
+            config.bankPage.append(mainBankPage(bankAccount));
+        });
     });
 
     return container;
