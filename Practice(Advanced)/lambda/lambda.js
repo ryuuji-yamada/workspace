@@ -1,3 +1,113 @@
+/*sample14
+const customerList = [
+    {
+       id: 1,
+       company: "MH Corp.",
+       name: "Makenzie Hibbert",
+       rank: "A",
+       email: "makenzie@example.com"
+    },
+    {
+       id: 2,
+       company: "MH Corp.",
+       name: "Abram Martinho Fleming",
+       rank: "B",
+       email: "abram@example.com"
+    },
+    {
+       id: 3,
+       company: "Best Inc.",
+       name: "Trey Best",
+       rank: "A",
+       email: "trey@example.com"
+    },
+    {
+       id: 4,
+       company: "Best Inc.",
+       name: "Joshua Charnley",
+       rank: "B",
+       email: "joshua@example.com"
+    },
+    {
+       id: 5,
+       company: "Best Inc.",
+       name: "Sue Rodger",
+       rank: "C",
+       email: "sue@example.com"
+    }
+ ];
+
+ let rankAlist = customerList.filter(customer => customer.rank == "A");//filter関数での抽出
+ console.log(rankAlist);
+
+ //再利用性を考慮した関数
+ let extractionByRank = (list,rank) =>{
+    return list.filter(customer => customer.rank != rank);
+ };
+ console.log(extractionByRank(customerList,"A"));
+
+ let filterByRank = rank => personal => personal.rank == rank;
+ let filterByCompany = company => personal => personal.company == company;
+
+ let versatileExtraction = (list,filerCriteria,value) => {
+    return list.filter(filerCriteria(value));
+ }
+ console.log(versatileExtraction(customerList,filterByCompany,"MH Corp"));
+ console.log(versatileExtraction(customerList,filterByRank,"A"));
+ */
+
+/*sample13:部分適用(複数の引数を取る関数のうち、一部の引数をデフォルト値に固定し、より少ない引数を取る関数を作成すること)
+function usdTojpy(USDJPY,paymentUSD,handlingCharge){
+    return USDJPY*paymentUSD + handlingCharge;
+}
+//同じレート、手数料を毎回記述するのは冗長
+console.log(usdTojpy(139.85,200,3000));
+console.log(usdTojpy(139.85,32,3000));
+
+let usdTojpyVisaNov17th = function(paymentUSD){//部分適用
+    return usdTojpy(139.85,paymentUSD,3000);
+}
+console.log(usdTojpyVisaNov17th(200));
+console.log(usdTojpyVisaNov17th(32));
+
+//カリー化で簡潔に
+let usdTojpyCarry =
+function(handlingCharge){
+    return function(USDJPY){
+        return function(paymentUSD){
+            return USDJPY * paymentUSD + handlingCharge;
+        }
+    }
+}
+
+let usdTojpyVisaNov17thCarry = usdTojpyCarry(3000)(139.85);
+console.log(usdTojpyVisaNov17thCarry(200));
+console.log(usdTojpyVisaNov17thCarry(32));
+
+//アロー関数でさらに簡潔に
+let usdTojpyCarryArrow = handlingCharge => USDJPY => paymentUSD => USDJPY * paymentUSD + handlingCharge;
+let usdTojpyVisaNov17thCarryArrow = usdTojpyCarryArrow(3000)(139.85);
+console.log(usdTojpyVisaNov17thCarryArrow(200));
+console.log(usdTojpyVisaNov17thCarryArrow(32));
+*/
+
+/*sample12: カリー化(複数の引数を取る関数を、それぞれ単一の引数を取る一連の関数に変換する手法)
+function addFn(x,y){//引数を２つ持つ通常の関数
+    return x + y;
+}
+console.log(addFn(1,2));//3
+
+function addCarry(x){//カリー化
+    return function(y){
+        return x + y;
+    }
+}
+console.log(addCarry(4)(5));//9
+
+let addCarryLambda = x => y => x + y;//アロー関数で簡潔に記述可能
+console.log(addCarryLambda(3)(3));//6
+*/
+
 /*sample11.3:reduce関数
 let array2d = [[2,3,4,5],[5,22,34,4,5],[12,13,45,67,84]];
 
