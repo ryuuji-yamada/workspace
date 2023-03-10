@@ -24,6 +24,15 @@ body{
     background-color: #3c5279;
 }
 
+.selectItem {
+    background-color: #3c5279;
+}
+
+.selectItem:hover {
+    border: 2px solid steelblue;
+    cursor: pointer;
+}
+
 @media (min-width:600px){
     .flowHeight{
         height: 80%!important;

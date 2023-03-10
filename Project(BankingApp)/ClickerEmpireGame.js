@@ -52,7 +52,7 @@ class View{
     }
     static createMainPage(){
         let container = document.createElement("div");
-        container.innerHTML =/*userInfo/displayItems/reset/save*/
+        container.innerHTML =/*displayItems/reset/save*/
         `
         <div class="d-flex justify-content-center p-md-5 pb-5" style='height:100vh;'>
             <div class="bg-navy p-2 d-flex col-md-11 col-lg-10">
@@ -78,6 +78,7 @@ class View{
         `
         container.querySelectorAll("#burgerStatus")[0].append(View.createBurgerStatus());//burgerStatus作成
         container.querySelectorAll("#userInfo")[0].append(View.createUserInfo());//userInfo作成
+        container.querySelectorAll("#displayItems")[0].append(View.createItemsPage());//displayItems作成
         return container;
     }
 
@@ -115,6 +116,29 @@ class View{
             <p>￥sample.money</p>
         </div>
         `
+        return container;
+    }
+
+    static createItemsPage(){
+        let container = document.createElement("div");
+        container.innerHTML =
+        `
+        <div class="text-white d-sm-flex align-items-center m-1 selectItem">
+                <div class="d-none d-sm-block p-1 col-sm-3">
+                    <img src="https://cdn.pixabay.com/photo/2019/06/30/20/09/grill-4308709_960_720.png" class="img-fluid">
+                </div>
+                <div class="col-sm-9">
+                    <div class="d-flex justify-content-between">
+                        <h4>sample.name</h4>
+                        <h4>sample.currentAmount</h4>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>￥sample.price</p>
+                        <p class="text-success">￥後で考える</p>
+                    </div>
+                </div>                      
+            </div>
+        `;
         return container;
     }
 }
