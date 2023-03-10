@@ -50,9 +50,9 @@ class View{
         `;
         return config.initialPage.append(container);//<div id="initialPage">の中にcontainerの内容を入れ込む
     }
-    static createMainPage(user){
+    static createMainPage(){
         let container = document.createElement("div");
-        container.innerHTML =/*burgerStatus/userInfo/displayItems/reset/save*/
+        container.innerHTML =/*userInfo/displayItems/reset/save*/
         `
         <div class="d-flex justify-content-center p-md-5 pb-5" style='height:100vh;'>
             <div class="bg-navy p-2 d-flex col-md-11 col-lg-10">
@@ -77,6 +77,7 @@ class View{
         </div>
         `
         container.querySelectorAll("#burgerStatus")[0].append(View.createBurgerStatus());//burgerStatus作成
+        container.querySelectorAll("#userInfo")[0].append(View.createUserInfo());//userInfo作成
         return container;
     }
 
@@ -93,6 +94,27 @@ class View{
         </div>
         `
         let burgerClick = container.querySelectorAll("#burger")[0];
+        return container;
+    }
+
+    static createUserInfo(){
+        let container = document.createElement("div");
+        container.classList.add("d-flex", "flex-wrap", "p-1");
+        container.innerHTML =
+        `
+        <div class="text-white text-center col-12 col-sm-6 userInfoBorder">
+            <p>sample.name</p>
+        </div>
+        <div class="text-white text-center col-12 col-sm-6 userInfoBorder">
+            <p>sample.years old</p>
+        </div>
+        <div class="text-white text-center col-12 col-sm-6 userInfoBorder">
+            <p>sample.days</p>
+        </div>
+        <div class="text-white text-center col-12 col-sm-6 userInfoBorder">
+            <p>￥sample.money</p>
+        </div>
+        `
         return container;
     }
 }

@@ -12,6 +12,14 @@ body{
     opacity: 0.7;
 }
 
+.userInfoBorder{
+    border:0.25rem solid #343a40;
+}
+
+.flowHeight{
+    height: 50%;
+}
+
 .bg-navy{
     background-color: #3c5279;
 }
