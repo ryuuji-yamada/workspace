@@ -3,3 +3,21 @@ body{
     font-family: futura!important;
     letter-spacing: 0.03em!important;
 }
+
+.hover{
+    cursor: pointer;
+}
+
+.hover:hover{
+    opacity: 0.7;
+}
+
+.bg-navy{
+    background-color: #3c5279;
+}
+
+@media (min-width:600px){
+    .flowHeight{
+        height: 80%!important;
+    }
+}
