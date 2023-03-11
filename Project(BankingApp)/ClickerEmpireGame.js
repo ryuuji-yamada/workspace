@@ -1,9 +1,9 @@
-const config = {
+const config = {//完了
     initialPage: document.getElementById("initialPage"),
     mainPage: document.getElementById("mainPage")
 }
 
-class User{
+class User{//完了
     constructor(name, age, days, money, items){
         this.name = name;
         this.age = age;
@@ -24,7 +24,7 @@ class Items{
 */
 
 class View{
-    static createInitialPage(){
+    static createInitialPage(){//完了
         let container = document.createElement("div");
         container.classList.add("vh-100", "d-flex", "justify-content-center", "align-items-center");
         container.innerHTML =
@@ -50,9 +50,9 @@ class View{
         `;
         return config.initialPage.append(container);//<div id="initialPage">の中にcontainerの内容を入れ込む
     }
-    static createMainPage(){
+    static createMainPage(){/*未実装の内容=>displayItems/reset/save*/
         let container = document.createElement("div");
-        container.innerHTML =/*displayItems/reset/save*/
+        container.innerHTML =
         `
         <div class="d-flex justify-content-center p-md-5 pb-5" style='height:100vh;'>
             <div class="bg-navy p-2 d-flex col-md-11 col-lg-10">
@@ -82,7 +82,7 @@ class View{
         return container;
     }
 
-    static createBurgerStatus(){
+    static createBurgerStatus(){//未実装=>user情報の反映//ハンバーガークリック操作
         let container = document.createElement("div");
         container.innerHTML =
         `
@@ -98,7 +98,7 @@ class View{
         return container;
     }
 
-    static createUserInfo(){
+    static createUserInfo(){//未実装=>user情報の反映
         let container = document.createElement("div");
         container.classList.add("d-flex", "flex-wrap", "p-1");
         container.innerHTML =
@@ -119,7 +119,7 @@ class View{
         return container;
     }
 
-    static createItemsPage(){
+    static createItemsPage(){//未実装=>複数のItemsページの作成の処理
         let container = document.createElement("div");
         container.innerHTML =
         `
@@ -141,12 +141,38 @@ class View{
         `;
         return container;
     }
+
+    /*
+    static createPurchasePage(){
+
+    }
+
+    static displayMaxPurchase(){
+        
+    }
+
+    static displayItemIncome(){
+        
+    }
+
+    static updateMainPage(){
+        
+    }
+
+    static updateBugurPage(){
+        
+    }
+
+    static updateUserInfo(){
+        
+    }
+    */
 }
 
 class Controller{
     //timer;
 
-    static startGame(){
+    static startGame(){//未実装=>Loginボタンクリック時の詳細な処理//newボタンクリック時の詳細な処理
         View.createInitialPage();
         let newGameBtn = config.initialPage.querySelectorAll("#newGame")[0];
         newGameBtn.addEventListener("click",function(){
@@ -158,10 +184,61 @@ class Controller{
         });
     }
 
-    static moveInitialToMain(){
+    static moveInitialToMain(){//未実装=>タイマー開始の処理
         config.initialPage.classList.add("d-none");//initialPageを非表示にする
         config.mainPage.append(View.createMainPage());//mainPage作成
     }
+
+    /*
+    static createInitialUserAccount(){
+        
+    }
+
+    static startTimer(){
+        
+    }
+
+    static stoptimer(){
+        
+    }
+
+    static purchaseItems(){
+        
+    }
+
+    static updateByClickBurger(){
+        
+    }
+
+    static getTotalPrice(){
+        
+    }
+
+    static calculateEtfStockPrice(){
+        
+    }
+
+    static updateUserIncome(){
+        
+    }
+
+    static resetAllData(){
+        
+    }
+
+    static saveUserDate(){
+        
+    }
+
+
+    static getUserData(){
+        
+    }
+
+    static initializePage(){
+        
+    }
+    */
 }
 
 Controller.startGame();
