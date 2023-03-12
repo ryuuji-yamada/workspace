@@ -31,7 +31,7 @@ class Items{//完了
 }
 
 class View{
-    static createInitialPage(){//完了
+    static createInitialPage(){//完了(デフォルトのユーザネームを設定済)
         let container = document.createElement("div");
         container.classList.add("vh-100", "d-flex", "justify-content-center", "align-items-center");
         container.innerHTML =
@@ -41,7 +41,7 @@ class View{
             <form>
                 <div class="form-row pb-3">
                     <div class="col">
-                        <input type="text" class="form-control" placeholder="Your name">
+                        <input type="text" class="form-control" placeholder="Your name" value="Hoge Taro">
                     </div>
                 </div>
             </form>
@@ -89,12 +89,12 @@ class View{
         return container;
     }
 
-    static createBurgerStatus(user){//未実装=>ハンバーガークリック操作
+    static createBurgerStatus(user){//完了
         let container = document.createElement("div");
         container.innerHTML =
         `
         <div class="bg-navy text-white text-center">
-            <h5>sample Burgers</h5>
+            <h5>${user.clickCount} Burgers</h5>
             <p>one click ￥${user.incomePerClick} </p>
         </div>
         <div class="p-2 pt-5 d-flex justify-content-center">
@@ -102,6 +102,9 @@ class View{
         </div>
         `
         let burgerClick = container.querySelectorAll("#burger")[0];
+        burgerClick.addEventListener("click",function(){
+            Controller.updateByClickBurger(user);//Controller:user.clickCount++ => View:burgerStatus内のHTMLを一旦空白にして、再度createBurgerStatus()実行
+        });
         return container;
     }
 
@@ -165,15 +168,20 @@ class View{
     static updateMainPage(){
         
     }
-
-    static updateBugurPage(){
-        
-    }
-
-    static updateUserInfo(){
-        
-    }
     */
+
+    static updateBurgerPage(user){//完了
+        let burgerStatus = config.mainPage.querySelectorAll("#burgerStatus")[0];
+        burgerStatus.innerHTML = '';
+        burgerStatus.append(View.createBurgerStatus(user));
+    }
+
+    static updateUserInfo(user){//完了
+        let userInfo = config.mainPage.querySelectorAll("#userInfo")[0];
+        userInfo.innerHTML = '';
+        userInfo.append(View.createUserInfo(user));
+    }
+    
 }
 
 class Controller{
@@ -232,11 +240,16 @@ class Controller{
     static purchaseItems(){
         
     }
+    */
 
-    static updateByClickBurger(){
-        
+    static updateByClickBurger(user){//完了
+        user.clickCount++;
+        user.money += user.incomePerClick;
+        View.updateBurgerPage(user);
+        View.updateUserInfo(user);
     }
 
+    /*
     static getTotalPrice(){
         
     }
