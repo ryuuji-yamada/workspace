@@ -57,7 +57,7 @@ class View{
         `;
         return config.initialPage.append(container);//<div id="initialPage">の中にcontainerの内容を入れ込む
     }
-    static createMainPage(user){/*未実装の内容=>displayItems/reset/save*/
+    static createMainPage(user){/*未実装の内容=>reset/save*/
         let container = document.createElement("div");
         container.innerHTML =
         `
@@ -85,7 +85,7 @@ class View{
         `
         container.querySelectorAll("#burgerStatus")[0].append(View.createBurgerStatus(user));//burgerStatus作成
         container.querySelectorAll("#userInfo")[0].append(View.createUserInfo(user));//userInfo作成
-        container.querySelectorAll("#displayItems")[0].append(View.createItemsPage());//displayItems作成
+        container.querySelectorAll("#displayItems")[0].append(View.createItemsPage(user));//displayItems作成
         return container;
     }
 
@@ -129,26 +129,28 @@ class View{
         return container;
     }
 
-    static createItemsPage(){//未実装=>複数のItemsページの作成の処理
+    static createItemsPage(user){//未実装=>purchasePageの作成
         let container = document.createElement("div");
-        container.innerHTML =
+        for(let i = 0; i < user.items.length; i++){
+        container.innerHTML +=
         `
         <div class="text-white d-sm-flex align-items-center m-1 selectItem">
                 <div class="d-none d-sm-block p-1 col-sm-3">
-                    <img src="https://cdn.pixabay.com/photo/2019/06/30/20/09/grill-4308709_960_720.png" class="img-fluid">
+                    <img src="${user.items[i].url}" class="img-fluid">
                 </div>
                 <div class="col-sm-9">
                     <div class="d-flex justify-content-between">
-                        <h4>sample.name</h4>
-                        <h4>sample.currentAmount</h4>
+                        <h4>${user.items[i].name}</h4>
+                        <h4>${user.items[i].currentAmount}</h4>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <p>￥sample.price</p>
-                        <p class="text-success">￥後で考える</p>
+                        <p>￥${user.items[i].price}</p>
+                        <p class="text-success">￥${View.displayItemIncome(user.items[i],user.items[i].type)}</p>
                     </div>
                 </div>                      
             </div>
         `;
+        }
         return container;
     }
 
@@ -160,11 +162,15 @@ class View{
     static displayMaxPurchase(){
         
     }
+    */
 
-    static displayItemIncome(){
-        
+    static displayItemIncome(item,type){//完了(type=abilityならクリックごとの収入額が増える。type=investmentなら1秒毎の収入額が増える)
+        if(type == "ability") return item.perMoney + " /click";
+        else if (type == "investment") return item.perRate + " /sec";
+        else return item.perMoney + " /sec";
     }
 
+    /*
     static updateMainPage(){
         
     }
