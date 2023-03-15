@@ -151,18 +151,54 @@ class View{
             </div>
         `;
         }
+        let select = container.querySelectorAll(".selectItem");
+        for(let i = 0; i < select.length; i++){
+            select[i].addEventListener("click",function(){
+                config.mainPage.querySelectorAll("#displayItems")[0].innerHTML = '';
+                config.mainPage.querySelectorAll("#displayItems")[0].append(View.createPurchasePage(user,i));
+            });
+        }
+
         return container;
     }
 
-    /*
-    static createPurchasePage(){
+    static createPurchasePage(user,index){//未実装=>inputCount処理//purchase処理
+        let container = document.createElement("div");
+        container.innerHTML = 
+        `
+        <div class="bg-navy p-2 m-1 text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h4>${user.items[index].name}</h4>
+                            <p>Max purchases: ${View.displayMaxPurchase(user.items[index].maxAmount)}</p>
+                            <p>Price: ￥${user.items[index].price}</p>
+                            <p>Get ￥${View.displayItemIncome(user.items[index], user.items[index].type)}</p>
+                    </div>
+                    <div class="p-2 d-sm-block col-sm-5">
+                        <img src="${user.items[index].url}" class="img-fluid">
+                    </div>
+                </div>
+                <p>How many would you like to buy?</p>
+                <input type="number" placeholder="0" class="col-12 form-control">
+                <p class="text-right" id="totalPrice">total: ￥0</p>
+                <div class="d-flex justify-content-between pb-3">
+                    <button class="btn btn-outline-primary col-5 bg-light" id="back">Go Back</buttone>
+                    <button class="btn btn-primary col-5" id="purchase">Purchase</buttone>
+                </div>
+            </div>
+        `;
+        let backBtn = container.querySelectorAll("#back")[0];
+        backBtn.addEventListener("click",function(){
+            View.updateMainPage(user);
+        });
 
+        return container;
     }
 
-    static displayMaxPurchase(){
-        
+    static displayMaxPurchase(maxAmount){//完了
+        if(maxAmount == -1)return "∞"//この処理の意味は?
+        else return maxAmount;
     }
-    */
 
     static displayItemIncome(item,type){//完了(type=abilityならクリックごとの収入額が増える。type=investmentなら1秒毎の収入額が増える)
         if(type == "ability") return item.perMoney + " /click";
@@ -170,11 +206,10 @@ class View{
         else return item.perMoney + " /sec";
     }
 
-    /*
-    static updateMainPage(){
-        
+    static updateMainPage(user){//完了
+        config.mainPage.innerHTML = '';
+        config.mainPage.append(View.createMainPage(user));
     }
-    */
 
     static updateBurgerPage(user){//完了
         let burgerStatus = config.mainPage.querySelectorAll("#burgerStatus")[0];
