@@ -295,7 +295,7 @@ class Controller{
     }
     */
 
-    static purchaseItems(user,index,count){//投資アイテムの購入処理
+    static purchaseItems(user,index,count){//未実装=>//投資アイテムの購入処理//不動産アイテムの購入処理
         if(count <= 0 || count%1 != 0){
             alert("Invalid Number");
         }else if(Controller.getTotalPrice(user.items[index],count) > user.money){
@@ -305,6 +305,7 @@ class Controller{
         }else{
             user.money -= Controller.getTotalPrice(user.items[index],count);
             user.items[index].currentAmount += Number(count);
+            Controller.updateUserIncome(user,user.items[index],count);
         }
     }
 
@@ -326,11 +327,15 @@ class Controller{
     static calculateEtfStockPrice(){
         
     }
-
-    static updateUserIncome(){
-        
+    */
+    static updateUserIncome(user,items,count){//未実装=>投資アイテム購入時の反映//不動産アイテム購入時の反映
+        count = Number(count);
+        if(items.type == "ability"){
+            user.incomePerClick += items.perMoney * count;
+        }
     }
 
+    /*
     static resetAllData(){
         
     }
