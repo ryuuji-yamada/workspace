@@ -129,7 +129,7 @@ class View{
         return container;
     }
 
-    static createItemsPage(user){//未実装=>purchasePageの作成
+    static createItemsPage(user){//完了
         let container = document.createElement("div");
         for(let i = 0; i < user.items.length; i++){
         container.innerHTML +=
@@ -162,7 +162,7 @@ class View{
         return container;
     }
 
-    static createPurchasePage(user,index){//未実装=>inputCount処理//purchase処理
+    static createPurchasePage(user,index){//完了
         let container = document.createElement("div");
         container.innerHTML = 
         `
@@ -187,8 +187,24 @@ class View{
                 </div>
             </div>
         `;
+
+        let inputCount = container.querySelectorAll("input")[0];
+        inputCount.addEventListener("input",function(){
+            container.querySelectorAll("#totalPrice")[0].innerHTML =
+            `
+            total: ￥${Controller.getTotalPrice(user.items[index],inputCount.value)}
+            `
+        });
+
+
         let backBtn = container.querySelectorAll("#back")[0];
         backBtn.addEventListener("click",function(){
+            View.updateMainPage(user);
+        });
+
+        let purchaseBtn = container.querySelectorAll("#purchase")[0];
+        purchaseBtn.addEventListener("click",function(){
+            Controller.purchaseItems(user,index,inputCount.value);
             View.updateMainPage(user);
         });
 
@@ -277,11 +293,20 @@ class Controller{
     static stoptimer(){
         
     }
-
-    static purchaseItems(){
-        
-    }
     */
+
+    static purchaseItems(user,index,count){//投資アイテムの購入処理
+        if(count <= 0 || count%1 != 0){
+            alert("Invalid Number");
+        }else if(Controller.getTotalPrice(user.items[index],count) > user.money){
+            alert("You don't have enough money.");
+        }else if(user.items[index].currentAmount + count > user.items[index].maxAmount && user.items[index].type != "investment"){
+            alert("You can't buy anymore.");
+        }else{
+            user.money -= Controller.getTotalPrice(user.items[index],count);
+            user.items[index].currentAmount += Number(count);
+        }
+    }
 
     static updateByClickBurger(user){//完了
         user.clickCount++;
@@ -290,11 +315,14 @@ class Controller{
         View.updateUserInfo(user);
     }
 
-    /*
-    static getTotalPrice(){
-        
+    static getTotalPrice(item,count){//未実装=>ETFstock購入時の処理
+        let total = 0;
+        count = Number(count);
+        if(count > 0 && count%1 == 0)return total += item.price * count;
+        else return total;
     }
 
+    /*
     static calculateEtfStockPrice(){
         
     }
