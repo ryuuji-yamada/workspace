@@ -303,7 +303,7 @@ class Controller{
         clearInterval(Controller.timer);
     }
 
-    static purchaseItems(user,index,count){//未実装=>//投資アイテムの購入処理//不動産アイテムの購入処理
+    static purchaseItems(user,index,count){//完了
         if(count <= 0 || count%1 != 0){
             alert("Invalid Number");
         }else if(Controller.getTotalPrice(user.items[index],count) > user.money){
@@ -313,7 +313,14 @@ class Controller{
         }else{
             user.money -= Controller.getTotalPrice(user.items[index],count);
             user.items[index].currentAmount += Number(count);
-            Controller.updateUserIncome(user,user.items[index],count);
+            if(user.items[index].name == "ETF Stock"){
+                user.stock += Controller.getTotalPrice(user.items[index],count);
+                user.items[index].price = Controller.calculateEtfStockPrice(user.items[index],count);
+                Controller.updateUserIncome(user,user.items[index],count);
+            }else if(user.items[index].name == "ETF Bonds"){
+                user.stock += Controller.getTotalPrice(user.items[index],count);
+                Controller.updateUserIncome(user,user.items[index],count);
+            }else Controller.updateUserIncome(user,user.items[index],count);
         }
     }
 
@@ -324,22 +331,30 @@ class Controller{
         View.updateUserInfo(user);
     }
 
-    static getTotalPrice(item,count){//未実装=>ETFstock購入時の処理
+    static getTotalPrice(item,count){//完了
         let total = 0;
         count = Number(count);
-        if(count > 0 && count%1 == 0)return total += item.price * count;
+        if(item.name == "ETF Stock"){
+            for(let i = 0; i < count; i++){
+                total += parseInt(item.price * Math.pow(1+item.perRate,i));
+            }
+            return total;
+        }else if(count > 0 && count%1 == 0)return total += item.price * count;
         else return total;
     }
 
-    /*
-    static calculateEtfStockPrice(){
-        
+    static calculateEtfStockPrice(item,count){//完了
+        return parseInt(item.price * Math.pow(1 + item.perRate,count));
     }
-    */
-    static updateUserIncome(user,items,count){//未実装=>投資アイテム購入時の反映//不動産アイテム購入時の反映
+
+    static updateUserIncome(user,items,count){//完了
         count = Number(count);
         if(items.type == "ability"){
             user.incomePerClick += items.perMoney * count;
+        }else if(items.type == "investment"){
+            user.incomePerSec += user.stock * items.perRate;
+        }else if(items.type == "realState"){
+            user.incomePerSec += items.perMoney * count;
         }
     }
 
