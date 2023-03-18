@@ -242,7 +242,7 @@ class View{
 }
 
 class Controller{
-    //timer;
+    timer;
 
     static startGame(){//未実装=>Loginボタンクリック時の詳細な処理
         View.createInitialPage();
@@ -262,9 +262,10 @@ class Controller{
         });
     }
 
-    static moveInitialToMain(user){//未実装=>タイマー開始の処理
+    static moveInitialToMain(user){//完了
         config.initialPage.classList.add("d-none");//initialPageを非表示にする
         config.mainPage.append(View.createMainPage(user));//mainPage作成
+        Controller.startTimer(user);//タイマースタート
     }
 
     static createInitialUserAccount(userName){//完了
@@ -285,15 +286,22 @@ class Controller{
         return new User(userName, 20, 0, 50000, itemsList);
     }
 
-    /*
-    static startTimer(){
-        
+    static startTimer(user){//完了
+        Controller.timer = setInterval(function(){
+            user.days++;
+            user.money += user.incomePerSec;
+            if(user.days % 365 == 0){
+                user.age++;
+                View.updateUserInfo(user);
+            }else{
+                View.updateUserInfo(user);
+            }
+        },1000);
     }
 
-    static stoptimer(){
-        
+    static stoptimer(){//完了
+        clearInterval(Controller.timer);
     }
-    */
 
     static purchaseItems(user,index,count){//未実装=>//投資アイテムの購入処理//不動産アイテムの購入処理
         if(count <= 0 || count%1 != 0){
