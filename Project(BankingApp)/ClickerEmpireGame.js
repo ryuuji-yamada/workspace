@@ -57,7 +57,7 @@ class View{
         `;
         return config.initialPage.append(container);//<div id="initialPage">の中にcontainerの内容を入れ込む
     }
-    static createMainPage(user){/*未実装の内容=>reset/save*/
+    static createMainPage(user){//完了
         let container = document.createElement("div");
         container.innerHTML =
         `
@@ -86,6 +86,19 @@ class View{
         container.querySelectorAll("#burgerStatus")[0].append(View.createBurgerStatus(user));//burgerStatus作成
         container.querySelectorAll("#userInfo")[0].append(View.createUserInfo(user));//userInfo作成
         container.querySelectorAll("#displayItems")[0].append(View.createItemsPage(user));//displayItems作成
+
+        let resetBtn = container.querySelectorAll("#reset")[0];
+        resetBtn.addEventListener("click",function(){
+            Controller.resetAllData(user);
+        });
+
+        let saveBtn = container.querySelectorAll("#save")[0];
+        saveBtn.addEventListener("click", function(){
+            Controller.saveUserDate(user);
+            Controller.stoptimer();
+            Controller.initializePage();            
+        });
+
         return container;
     }
 
@@ -244,7 +257,7 @@ class View{
 class Controller{
     timer;
 
-    static startGame(){//未実装=>Loginボタンクリック時の詳細な処理
+    static startGame(){//完了
         View.createInitialPage();
         let newGameBtn = config.initialPage.querySelectorAll("#newGame")[0];
         newGameBtn.addEventListener("click",function(){
@@ -258,7 +271,14 @@ class Controller{
         });
         let loginBtn = config.initialPage.querySelectorAll("#login")[0];
         loginBtn.addEventListener("click",function(){
-            Controller.moveInitialToMain();
+            let userName = config.initialPage.querySelectorAll("input")[0].value;
+            if(userName == ""){
+                alert("名前を入力してください");
+            }else{
+                let user = Controller.getUserData(userName);
+                if(user == null) alert("There is no data.");
+                else Controller.moveInitialToMain(user);
+            }
         });
     }
 
@@ -358,24 +378,32 @@ class Controller{
         }
     }
 
-    /*
-    static resetAllData(){
-        
+    static resetAllData(user){//完了
+        if(window.confirm("Reset All Data?")){
+            let userName = user.name;
+            user = Controller.createInitialUserAccount(userName);
+            Controller.stoptimer();
+            View.updateMainPage(user);
+            Controller.startTimer(user);
+        }
     }
 
-    static saveUserDate(){
-        
+    static saveUserDate(user){//完了
+        localStorage.setItem(user.name,JSON.stringify(user));
+        alert("Saved your data. Please put the same name when you login");
     }
 
 
-    static getUserData(){
-        
+    static getUserData(userName){//完了
+        return JSON.parse(localStorage.getItem(userName));
     }
 
-    static initializePage(){
-        
+    static initializePage(){//完了
+        config.initialPage.classList.remove("d-none");
+        config.initialPage.innerHTML = '';
+        config.mainPage.innerHTML = '';
+        Controller.startGame();
     }
-    */
 }
 
 Controller.startGame();
