@@ -10,18 +10,34 @@
     <title>VueTest</title>
 </head>
 <body>
-    <!--
-    practice1
+    <!--practice1
     <div id="app">
         {{message}}
     </div>
     -->
-    <div id="app">
-        <p>The name is {{name}}.</p><!--Mastache構文-->
-        <p>We launched it {{thisYear - year}} years ago</p><!--JS式の利用-->
+    <!--practice2
+        <div id="app">
+        <p>The name is {{name}}.</p>
+        <p>We launched it {{thisYear - year}} years ago</p>
         <p>Reversed Name: {{name.split('').reverse().join('')}}</p>
         <p>三項演算子:{{ok ? "Yes!":"No!"}}</p>
     </div>
-    <script src="VueTest.js"></script>
+    -->
+    <!--practice3-->
+    <div id="app">
+        <div>{{title}}</div><!--テキストとして表示される-->
+        <div v-html="title"></div><!--HTMLとして表示される-->
+        <a v-bind:href="url">{{name}}</a><!--v-bindで属性hrefにurlをバインドする-->
+        </br>
+        <a :href="url">{{name}}</a><!--v-bind省略記法-->
+
+        <!--カスタムディレクティブ-->
+        <div>
+            <input /><!--通常のinput要素-->
+            <input v-focus /><!--ページ読み込み時にフォーカスされている-->
+        </div>
+    </div>
+    
+    <script src="VuePractice.js"></script>
 </body>
 </html>

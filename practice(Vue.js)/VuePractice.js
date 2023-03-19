@@ -6,7 +6,7 @@ var app = new Vue({
     }
 })
 */
-
+/*practice2
 var vm = new Vue({
     el:"#app",
     data:{
@@ -14,5 +14,22 @@ var vm = new Vue({
         year: 2020,
         thisYear: new Date().getFullYear(),
         ok:false
+    }
+})
+*/
+//practice3
+var vm = new Vue({
+    el:"#app",
+    data:{
+        title:"<h1>Title</h1>",
+        name:"Recursion",
+        url: "https://recursionist.io/"
+    },
+    directives:{
+        focus:{
+            inserted:function(el){
+                el.focus()
+            }
+        }
     }
 })
