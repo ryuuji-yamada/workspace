@@ -10,9 +10,17 @@
     <title>VueTest</title>
 </head>
 <body>
-    <!--Vueが適用される要素を指定-->
+    <!--
+    practice1
     <div id="app">
         {{message}}
+    </div>
+    -->
+    <div id="app">
+        <p>The name is {{name}}.</p><!--Mastache構文-->
+        <p>We launched it {{thisYear - year}} years ago</p><!--JS式の利用-->
+        <p>Reversed Name: {{name.split('').reverse().join('')}}</p>
+        <p>三項演算子:{{ok ? "Yes!":"No!"}}</p>
     </div>
     <script src="VueTest.js"></script>
 </body>
