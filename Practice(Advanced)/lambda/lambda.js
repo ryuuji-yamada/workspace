@@ -1,3 +1,114 @@
+/*sample18:デコレータ
+function simpleDecorator(f){
+    return function(){
+        console.log("Running f.....");
+        return f();
+    }
+}
+
+function helloWorld(){
+    return "Hello world";
+}
+
+let newFunc1 = simpleDecorator(helloWorld);//helloWorld関数に新しい機能を付加する
+console.log(newFunc1());
+
+let newFunc2 = simpleDecorator(()=>"Hello Jupiter");//引数にはその場で作成したラムダ関数を入れることが可能
+console.log(newFunc2());
+*/
+
+/*sample17:ラムダクロージャ
+const federalTaxes = 0.2;
+
+function taxLambda(stateTax,state){
+    return function(income){
+        let taxes = federalTaxes + stateTax;
+        console.log("Computing taxes for state..." + state);
+        return income - (taxes * income);
+    }
+}
+
+let californiaF = taxLambda(0.0725,"California");
+let texasF = taxLambda(0.0625, "Texas");
+let hawaiiF = taxLambda(0.04, "Hawaii");
+
+let income = 40000;
+console.log("Calculating income using lambdas");
+console.log(californiaF(income));
+console.log(texasF(income));
+console.log(hawaiiF(income));
+
+let income2 = 500000;
+console.log("------Calculating more income using lambdas------");
+console.log(californiaF(income2));
+console.log(texasF(income2));
+console.log(hawaiiF(income2));
+*/
+
+/*sample16-2:モジュールパターン
+function createObject(){
+    let privateValue = "privateValue";
+
+    function getPrivateValue(){
+        return privateValue;
+    }
+
+    function accessAlert(){
+        console.log("data changed!");
+    }
+
+    function setPrivateValue(newValue){
+        accessAlert();
+        privateValue = newValue;
+    }
+
+    return{
+        setValue:setPrivateValue,
+        getValue:getPrivateValue
+    }
+}
+
+let newObj = createObject();
+console.log(newObj.getValue());
+newObj.setValue("hoge");
+console.log(newObj.getValue());
+*/
+
+/*sample16-1:モジュールパターン
+function closure(){
+    let privateValue = "private";//外部から直接アクセスできない変数
+
+    function getPrivateValue(){//inner関数を経由することでprivateValueへアクセス
+        return privateValue;
+    }
+    return getPrivateValue;//内部privateValueの値を取得するための関数を返し、データの出入り口を作る
+}
+
+let closureFn = closure();
+
+console.log(closureFn.privateValue);//直接関数内の変数にはアクセスできない
+console.log(closureFn());//closureFnから帰ってきた関数を実行することで関数内の変数を取得できる
+*/
+
+/*sample15:クロージャ
+function counterFn(){
+    let count = 0;
+
+    function increase(){
+        count++;//外部の変数にアクセス
+        return count;
+    };
+    return increase;//inner関数を返す。
+}
+
+let counter = counterFn();//inner関数がグローバル変数に格納される
+//同じ入力でも、出力が変わる
+console.log(counter());//=>1
+console.log(counter());//=>2
+console.log(counter());//=>3
+console.log(counter());//=>4
+*/
+
 /*sample14
 const customerList = [
     {
