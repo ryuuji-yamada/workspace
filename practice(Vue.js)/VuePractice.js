@@ -17,7 +17,7 @@ var vm = new Vue({
     }
 })
 */
-//practice3
+/*practice3
 var vm = new Vue({
     el:"#app",
     data:{
@@ -32,4 +32,21 @@ var vm = new Vue({
             }
         }
     }
+})
+*/
+//practice4
+var vm = new Vue({
+    el:"#app",
+    data:{
+        message: "",
+        checked: true,
+        checkedCourse: [],
+        picked: "",
+        selected: "",
+        options: [
+            "Frontend Engineer",
+            "Backend Engineer",
+            "Fullstack Engineer"
+        ],
+    },
 })

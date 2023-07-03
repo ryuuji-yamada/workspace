@@ -23,19 +23,54 @@
         <p>三項演算子:{{ok ? "Yes!":"No!"}}</p>
     </div>
     -->
-    <!--practice3-->
+    <!--practice3
     <div id="app">
-        <div>{{title}}</div><!--テキストとして表示される-->
-        <div v-html="title"></div><!--HTMLとして表示される-->
-        <a v-bind:href="url">{{name}}</a><!--v-bindで属性hrefにurlをバインドする-->
+        <div>{{title}}</div>
+        <div v-html="title"></div>
+        <a v-bind:href="url">{{name}}</a>
         </br>
-        <a :href="url">{{name}}</a><!--v-bind省略記法-->
+        <a :href="url">{{name}}</a>
 
-        <!--カスタムディレクティブ-->
         <div>
-            <input /><!--通常のinput要素-->
-            <input v-focus /><!--ページ読み込み時にフォーカスされている-->
+            <input />
+            <input v-focus />
         </div>
+    </div>
+    -->
+    <!--practice4-->
+    <div id="app">
+        <!--テキスト-->
+        <input v-model="message" placeholder="edit me">
+        <p>Message is:{{message}}</p>
+
+        <!--チェックボックス１つだけの時はbooleanだけ-->
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">Checkbox: {{checked}}</label>
+        <p></p>
+        <!--複数のチェックボックスは配列にバインド-->
+        <input type="checkbox" id="vue" value="Vue" v-model="checkedCourse">
+        <label for="vue">Vue</label>
+        <input type="checkbox" id="react" value="React" v-model="checkedCourse">
+        <label for="react">React</label>
+        <input type="checkbox" id="angular" value="Angular" v-model="checkedCourse">
+        <label for="angular">Angular</label>
+        <p>Checked Course: {{checkedCourse}}</p>
+
+        <!--ラジオボタン-->
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <input type="radio" id="three" value="Three" v-model="picked">
+        <label for="three">Three</label>
+        <p>Picked: {{picked}}</p>
+
+        <!--select-->
+        <select v-model="selected">
+            <option disabled value="">Please select one</option>
+            <option v-for="option in options" :value="option">{{option}}</option>
+        </select>
+        <p>Selected: {{selected}}</p>
     </div>
     
     <script src="VuePractice.js"></script>
