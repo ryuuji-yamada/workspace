@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カレンダー</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="cal">
+        <div class="cal_header">
+            <div class="cal_arrow cal_prev"></div>
+            <div class="cal_title">2023年08月</div>
+            <div class="cal_arrow cal_next"></div>
+        </div>
+        <div class="cal_body">
+            <table>
+                <thead class="cal_weeks">
+                    <tr>
+                        <th class="cal_week cal_week--sun">日</th>
+                        <th class="cal_week">月</th>
+                        <th class="cal_week">火</th>
+                        <th class="cal_week">水</th>
+                        <th class="cal_week">木</th>
+                        <th class="cal_week">金</th>
+                        <th class="cal_week cal_week--sat">土</th>
+                    </tr>
+                </thead>
+                <tbody class="cal_days">
+                    <!--index.jsにて描画する部分-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
